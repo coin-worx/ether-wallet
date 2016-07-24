@@ -1,0 +1,12 @@
+<div>
+    <accounts-form></accounts-form>
+    <ul>
+        <li *ngFor="let account of accounts">
+            <!--<a [routerLink]="['/account', account._id]">{{account.name}}</a>-->
+            <h4>{{account.name}}</h4>
+            <p><strong>Email: </strong>{{account.email}}</p>
+            <p><strong>Ethereum Address: </strong>{{account.eth_address}}</p>
+            <button (click)="removeAccount(account)">X</button>
+        </li>
+    </ul>
+</div>

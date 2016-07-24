@@ -1,0 +1,11 @@
+<form [ngFormModel]="accountsForm" #f="ngForm" (submit)="addAccount(f.value)">
+    <label>Name</label>
+    <input type="text" ngControl="name">
+    <label>Email</label>
+    <input type="text" ngControl="email">
+    <label>Password</label>
+    <input type="password" ngControl="password">
+    <label>Ethereum Password</label>
+    <input type="password" ngControl="eth_password">
+    <button>Add</button>
+</form>
