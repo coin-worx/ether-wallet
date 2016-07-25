@@ -1,7 +1,7 @@
 import {Mongo} from 'meteor/mongo';
 import {Meteor} from 'meteor/meteor';
 
-export let Accounts = new Mongo.Collection<Party>('accounts');
+export let AccountsCollection = new Mongo.Collection<Account>('accounts');
 
 // Accounts.allow({
 //     insert: function() {

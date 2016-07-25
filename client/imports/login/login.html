@@ -1,0 +1,40 @@
+<div>
+    <div *ngIf="!showLogin">
+        <h3>Signup</h3>
+        <div>
+            <label for="name">Name: </label>
+            <input type="text" name="name" [(ngModel)]="credentials.profile.name" required>
+        </div>
+        <div>
+            <label for="eth_password">Ethereum Password: </label>
+            <input type="password" name="eth_password" [(ngModel)]="credentials.eth_password" required>
+        </div>
+    </div>
+    <h3 *ngIf="showLogin">Login</h3>
+    <div>
+        <label for="email">Email: </label>
+        <input type="email" name="email" [(ngModel)]="credentials.email" required>
+    </div>
+    <div>
+        <label for="password">Password: </label>
+        <input type="password" name="password" [(ngModel)]="credentials.password" required>
+    </div>
+    <div *ngIf="accountsService.isLoggingIn()">
+        <strong>Please wait...</strong>
+    </div>
+    <div>
+        <ul>
+            <li *ngFor="let error of accountsService.getErrors()">
+                {{ error }}
+            </li>
+        </ul>
+    </div>
+    <button *ngIf="showLogin" (click)="login()">Login</button>
+    <button *ngIf="!showLogin" (click)="signup()">Signup</button>
+
+    <a href="javascript:void(0)" (click)="showLogin = !showLogin">
+        <span *ngIf="showLogin">Create new account</span>
+        <span *ngIf="!showLogin">Login</span>
+    </a>
+
+</div>

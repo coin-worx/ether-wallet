@@ -1,0 +1,15 @@
+<div *ngIf="accountsService.isLoggedIn()">
+    <h3>Welcome {{accountsService.getCurrentUser().profile.name}}!</h3>
+    <div>
+        <strong>Email: </strong>{{accountsService.getCurrentUser().emails[0].address}}
+    </div>
+    <div>
+        <strong>Ethereum Address: </strong>{{accountsService.getCurrentUser().profile.eth_address}}
+    </div>
+    <div>
+        <button (click)="accountsService.logout()">Logout</button>
+    </div>
+</div>
+<div *ngIf="!accountsService.isLoggedIn()">
+    <login-form></login-form>
+</div>

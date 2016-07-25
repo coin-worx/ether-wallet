@@ -3,7 +3,7 @@ import {Component, provide} from '@angular/core';
 import {bootstrap} from 'angular2-meteor-auto-bootstrap';
 import {provideRouter, RouterConfig, ROUTER_DIRECTIVES} from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { AccountsList } from './imports/accounts-list/accounts-list.ts';
+import {Home} from "./imports/home/home";
 
 import template from './app.html';
 
@@ -16,7 +16,7 @@ class PoC {
 }
 
 const routes: RouterConfig = [
-    { path: '',              	component: AccountsList },
+    { path: '', component: Home },
 ];
 
 const APP_ROUTER_PROVIDERS = [

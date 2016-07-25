@@ -6,6 +6,7 @@
             <h4>{{account.name}}</h4>
             <p><strong>Email: </strong>{{account.email}}</p>
             <p><strong>Ethereum Address: </strong>{{account.eth_address}}</p>
+            <p><strong>Balance: </strong>{{getBalance(account)}}</p>
             <button (click)="removeAccount(account)">X</button>
         </li>
     </ul>
