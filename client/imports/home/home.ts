@@ -3,6 +3,7 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {AccountsService} from "../services/accounts.service";
 import {Login} from "../login/login";
 
+//noinspection TypeScriptCheckImport
 import template from './home.html';
 
 @Component({

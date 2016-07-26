@@ -1,8 +1,9 @@
 import {Component, NgZone} from '@angular/core';
 import {ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
-
-import template from './project-details.html';
 import {Projects} from "../../../../collections/projects.collection";
+
+//noinspection TypeScriptCheckImport
+import template from './project-details.html';
 
 @Component({
     selector: 'project-details',

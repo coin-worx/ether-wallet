@@ -2,6 +2,7 @@ import {Component, NgZone} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {AccountsService} from "../services/accounts.service";
 
+//noinspection TypeScriptCheckImport
 import template from './login.html';
 
 @Component({

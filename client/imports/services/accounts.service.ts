@@ -2,8 +2,6 @@ import {Injectable, NgZone} from "@angular/core";
 import {Accounts} from 'meteor/accounts-base';
 import {Tracker} from 'meteor/tracker';
 import {Meteor} from 'meteor/meteor';
-import {web3} from "../../lib/eth_init";
-import {AccountsCollection} from "../../../collections/accounts.collection";
 
 @Injectable()
 export class AccountsService {

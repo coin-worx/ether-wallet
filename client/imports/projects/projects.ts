@@ -2,6 +2,7 @@ import {Component, NgZone} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {Projects} from "../../../collections/projects.collection";
 
+//noinspection TypeScriptCheckImport
 import template from './projects.html';
 
 @Component({

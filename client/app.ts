@@ -5,6 +5,7 @@ import {provideRouter, RouterConfig, ROUTER_DIRECTIVES} from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import {Home} from "./imports/home/home";
 
+//noinspection TypeScriptCheckImport
 import template from './app.html';
 import {ProjectsComponent} from "./imports/projects/projects";
 import {ProjectDetailsComponent} from "./imports/projects/project-details/project-details";
