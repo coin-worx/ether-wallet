@@ -1,6 +1,6 @@
 import {Mongo} from 'meteor/mongo';
 
-export let Projects = new Mongo.Collection('projects');
+export let Projects = new Mongo.Collection<Project>('projects');
 
 Projects.allow({
     insert: function() {
