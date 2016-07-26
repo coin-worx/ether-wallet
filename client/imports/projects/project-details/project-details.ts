@@ -4,6 +4,7 @@ import {Projects} from "../../../../collections/projects.collection";
 
 //noinspection TypeScriptCheckImport
 import template from './project-details.html';
+import {AccountsService} from "../../services/accounts.service";
 
 @Component({
     selector: 'project-details',
@@ -14,7 +15,9 @@ export class ProjectDetailsComponent {
     private projectId: string;
     private project: Project;
 
-    constructor(private route: ActivatedRoute, private ngZone: NgZone) {
+    constructor(private route: ActivatedRoute,
+                private ngZone: NgZone,
+                private accountsService: AccountsService) {
     }
 
     ngOnInit() {

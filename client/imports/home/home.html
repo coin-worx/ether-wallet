@@ -1,13 +1,19 @@
 <div *ngIf="accountsService.isLoggedIn()">
-    <h3>Welcome {{accountsService.getCurrentUser().profile.name}}!</h3>
-    <div>
-        <strong>Email: </strong>{{accountsService.getCurrentUser().emails[0].address}}
+    <div class="page-header">
+        <h2>Welcome {{accountsService.getCurrentUser().profile.name}}!</h2>
     </div>
-    <div>
-        <strong>Ethereum Address: </strong>{{accountsService.getCurrentUser().profile.eth_address}}
-    </div>
-    <div>
-        <button (click)="accountsService.logout()">Logout</button>
+    <div class="col-md-8">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Account Information</div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Email</dt>
+                    <dd>{{accountsService.getCurrentUser().emails[0].address}}</dd>
+                    <dt>Ethereum Address</dt>
+                    <dd>{{accountsService.getCurrentUser().profile.eth_address}}</dd>
+                </dl>
+            </div>
+        </div>
     </div>
 </div>
 <div *ngIf="!accountsService.isLoggedIn()">

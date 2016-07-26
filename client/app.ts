@@ -7,6 +7,7 @@ import {Home} from "./imports/home/home";
 
 //noinspection TypeScriptCheckImport
 import template from './app.html';
+import style from './style.css';
 
 import {ProjectsComponent} from "./imports/projects/projects";
 import {ProjectDetailsComponent} from "./imports/projects/project-details/project-details";
@@ -17,6 +18,7 @@ import {ROUTER_PROVIDERS} from "@angular/router-deprecated";
 @Component({
     selector: 'app',
     template,
+    style,
     providers: [AccountsService],
     directives: [ROUTER_DIRECTIVES]
 })

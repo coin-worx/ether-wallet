@@ -8,6 +8,7 @@ import template from './projects.html';
 import {isLoggedIn} from "../../lib/checkComponentAccess";
 
 import {CanActivate} from "@angular/router-deprecated";
+import {AccountsService} from "../services/accounts.service";
 
 @Component({
     selector: 'projects-list',
@@ -21,7 +22,7 @@ import {CanActivate} from "@angular/router-deprecated";
 export class ProjectsComponent {
     private projects: Mongo.Cursor<Project>;
 
-    constructor(){
+    constructor(private accountsService: AccountsService){
         this.projects = Projects.find();
     }
 }

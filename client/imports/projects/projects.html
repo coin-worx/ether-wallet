@@ -1,12 +1,16 @@
-<div>
-    <h2>Projects</h2>
-    <div>
-        <table border="2">
+<div *ngIf="accountsService.isLoggedIn()">
+    <div class="page-header">
+        <h2>Projects</h2>
+    </div>
+    <div class="panel">
+        <table class="table table-hover">
             <thead>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Risk Level</th>
-            <th></th>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Risk Level</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
             <tr *ngFor="let project of projects">

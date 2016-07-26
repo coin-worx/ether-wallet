@@ -4,10 +4,13 @@ import {AccountsService} from "../services/accounts.service";
 
 //noinspection TypeScriptCheckImport
 import template from './login.html';
+import style from './login.css';
 
 @Component({
     selector: 'login-form',
     template,
+    // styleUrls: ['login.css'],
+    style,
     directives: [ROUTER_DIRECTIVES]
 })
 export class Login {

@@ -1,6 +1,11 @@
-<div>
-    <h3>{{project.title}}</h3>
-    <p><strong>Description: </strong>{{project.description}}</p>
-    <p><strong>Risk Level: </strong>{{project.risk_level}}</p>
-    <a [routerLink]="['/projects']">&laquo;Back</a>
+<div *ngIf="accountsService.isLoggedIn()" class="panel panel-success">
+    <div class="panel-heading">{{project.title}}</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>{{project.description}}</dd>
+            <dt>Risk Level</dt>
+            <dd>{{project.risk_level}}</dd>
+        </dl>
+    </div>
 </div>

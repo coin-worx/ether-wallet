@@ -1,40 +1,77 @@
-<div>
+<form class="form-signin">
     <div *ngIf="!showLogin">
-        <h3>Signup</h3>
-        <div>
-            <label for="name">Name: </label>
-            <input type="text" name="name" [(ngModel)]="credentials.profile.name" required>
+        <h2 class="form-signin-heading">Signup</h2>
+        <label for="inputName" class="sr-only">Name</label>
+        <input type="text" id="inputName" class="form-control" placeholder="Name" [(ngModel)]="credentials.profile.name"
+               required autofocus>
+        <label for="inputEthereumPassword" class="sr-only">Ethereum Password</label>
+        <input type="password" id="inputEthereumPassword" class="form-control" [(ngModel)]="credentials.eth_password"
+               placeholder="Ethereum Password" required autofocus>
+    </div>
+    <h2 class="form-signin-heading" *ngIf="showLogin">Login</h2>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" id="inputEmail" class="form-control" [(ngModel)]="credentials.email" placeholder="Email address"
+           required>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" [(ngModel)]="credentials.password"
+           placeholder="Password" required>
+    <div class="toggle-form-type">
+        <a href="javascript:void(0)" (click)="showLogin = !showLogin">
+            <span *ngIf="showLogin">Create new account</span>
+            <span *ngIf="!showLogin">Login</span>
+        </a>
+        <div *ngIf="accountsService.isLoggingIn()">
+            <strong>Please wait...</strong>
         </div>
-        <div>
-            <label for="eth_password">Ethereum Password: </label>
-            <input type="password" name="eth_password" [(ngModel)]="credentials.eth_password" required>
-        </div>
-    </div>
-    <h3 *ngIf="showLogin">Login</h3>
-    <div>
-        <label for="email">Email: </label>
-        <input type="email" name="email" [(ngModel)]="credentials.email" required>
-    </div>
-    <div>
-        <label for="password">Password: </label>
-        <input type="password" name="password" [(ngModel)]="credentials.password" required>
-    </div>
-    <div *ngIf="accountsService.isLoggingIn()">
-        <strong>Please wait...</strong>
     </div>
     <div>
         <ul>
-            <li *ngFor="let error of accountsService.getErrors()">
+            <li class="text-danger" *ngFor="let error of accountsService.getErrors()">
                 {{ error }}
             </li>
         </ul>
     </div>
-    <button *ngIf="showLogin" (click)="login()">Login</button>
-    <button *ngIf="!showLogin" (click)="signup()">Signup</button>
+    <button class="btn btn-lg btn-primary btn-block" (click)="showLogin?login():signup()">Submit</button>
+</form>
 
-    <a href="javascript:void(0)" (click)="showLogin = !showLogin">
-        <span *ngIf="showLogin">Create new account</span>
-        <span *ngIf="!showLogin">Login</span>
-    </a>
 
-</div>
+<!--<div>-->
+<!--<div *ngIf="!showLogin">-->
+<!--<h3>Signup</h3>-->
+<!--<div>-->
+<!--<label for="name">Name: </label>-->
+<!--<input type="text" name="name" [(ngModel)]="credentials.profile.name" required>-->
+<!--</div>-->
+<!--<div>-->
+<!--<label for="eth_password">Ethereum Password: </label>-->
+<!--<input type="password" name="eth_password" [(ngModel)]="credentials.eth_password" required>-->
+<!--</div>-->
+<!--</div>-->
+<!--<h3 *ngIf="showLogin">Login</h3>-->
+<!--<div>-->
+<!--<label for="email">Email: </label>-->
+<!--<input type="email" name="email" [(ngModel)]="credentials.email" required>-->
+<!--</div>-->
+<!--<div>-->
+<!--<label for="password">Password: </label>-->
+<!--<input type="password" name="password" [(ngModel)]="credentials.password" required>-->
+<!--</div>-->
+<!--<div *ngIf="accountsService.isLoggingIn()">-->
+<!--<strong>Please wait...</strong>-->
+<!--</div>-->
+<!--<div>-->
+<!--<ul>-->
+<!--<li *ngFor="let error of accountsService.getErrors()">-->
+<!--{{ error }}-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--<button *ngIf="showLogin" (click)="login()">Login</button>-->
+<!--<button *ngIf="!showLogin" (click)="signup()">Signup</button>-->
+
+<!--<a href="javascript:void(0)" (click)="showLogin = !showLogin">-->
+<!--<span *ngIf="showLogin">Create new account</span>-->
+<!--<span *ngIf="!showLogin">Login</span>-->
+<!--</a>-->
+
+<!--</div>-->

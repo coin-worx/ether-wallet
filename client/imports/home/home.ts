@@ -5,10 +5,12 @@ import {Login} from "../login/login";
 
 //noinspection TypeScriptCheckImport
 import template from './home.html';
+import style from './home.css';
 
 @Component({
     selector: 'home',
     template,
+    style,
     directives: [Login, ROUTER_DIRECTIVES]
 })
 export class Home {
