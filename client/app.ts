@@ -6,6 +6,8 @@ import { APP_BASE_HREF } from '@angular/common';
 import {Home} from "./imports/home/home";
 
 import template from './app.html';
+import {ProjectsComponent} from "./imports/projects/projects";
+import {ProjectDetailsComponent} from "./imports/projects/project-details/project-details";
 
 @Component({
     selector: 'app',
@@ -17,6 +19,8 @@ class PoC {
 
 const routes: RouterConfig = [
     { path: '', component: Home },
+    { path: 'projects', component: ProjectsComponent},
+    { path: 'project/:projectId',	component: ProjectDetailsComponent},
 ];
 
 const APP_ROUTER_PROVIDERS = [

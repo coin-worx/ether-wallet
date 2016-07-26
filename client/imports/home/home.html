@@ -7,6 +7,9 @@
         <strong>Ethereum Address: </strong>{{accountsService.getCurrentUser().profile.eth_address}}
     </div>
     <div>
+        <a [routerLink]="['/projects']">View Projects</a>
+    </div>
+    <div>
         <button (click)="accountsService.logout()">Logout</button>
     </div>
 </div>
