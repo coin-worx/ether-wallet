@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="22b1ea10-2771-4064-be14-d1a0f2dfeb88" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/css/main.scss" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/imports/accounts-form/accounts-form.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/imports/accounts-form/accounts-form.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/imports/accounts-list/accounts-list.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/client/imports/accounts-list/accounts-list.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/collections/accounts.collection.ts" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="socially.iws" />
@@ -150,6 +145,7 @@
         <option value="$PROJECT_DIR$/client/imports/login/login.ts" />
         <option value="$PROJECT_DIR$/server/main.ts" />
         <option value="$PROJECT_DIR$/client/imports/services/accounts.service.ts" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -368,12 +364,20 @@
       <workItem from="1469365817823" duration="2189000" />
       <workItem from="1469393013227" duration="3032000" />
       <workItem from="1469421794571" duration="22700000" />
-      <workItem from="1469510204894" duration="2053000" />
+      <workItem from="1469510204894" duration="2347000" />
     </task>
+    <task id="LOCAL-00001" summary="remove old unused files">
+      <created>1469513680970</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1469513680970</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56146000" />
+    <option name="totallyTimeSpent" value="56440000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -408,6 +412,9 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.md" />
+  </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
       <collection />
@@ -419,6 +426,10 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="remove old unused files" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove old unused files" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="3" />
@@ -426,14 +437,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/collections/accounts.collection.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/client/imports/accounts-form/accounts-form.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -763,6 +766,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
         </state>
       </provider>
