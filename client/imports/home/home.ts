@@ -9,7 +9,6 @@ import template from './home.html';
 @Component({
     selector: 'home',
     template,
-    providers: [AccountsService],
     directives: [Login, ROUTER_DIRECTIVES]
 })
 export class Home {

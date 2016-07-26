@@ -8,7 +8,6 @@ import template from './login.html';
 @Component({
     selector: 'login-form',
     template,
-    providers: [AccountsService],
     directives: [ROUTER_DIRECTIVES]
 })
 export class Login {

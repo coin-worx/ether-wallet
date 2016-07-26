@@ -1,4 +1,8 @@
 <div>
     <a [routerLink]="['/']">Home</a>
 </div>
+<div *ngIf="accountsService.isLoggedIn()">
+    <a [routerLink]="['/projects']">Projects</a>
+</div>
+
 <router-outlet></router-outlet>
