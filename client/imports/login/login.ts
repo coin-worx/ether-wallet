@@ -1,34 +1,40 @@
-import {Component, NgZone} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {AccountsService} from "../services/accounts.service";
 
 //noinspection TypeScriptCheckImport
 import template from './login.html';
+//noinspection TypeScriptCheckImport
 import style from './login.css';
-
 @Component({
     selector: 'login-form',
     template,
-    // styleUrls: ['login.css'],
     style,
     directives: [ROUTER_DIRECTIVES]
 })
-export class Login {
+export class LoginComponent implements OnInit{
     private autorunComputation: Tracker.Computation;
-    private currentUser: Meteor.User;
-    private showLogin: boolean;
+    // private currentUser: Meteor.User;
+    private showLogin: boolean = true;
     private credentials: SignupCredentials;
 
-    constructor(private zone: NgZone, private accountsService: AccountsService) {
+    constructor(private zone: NgZone,
+                private accountsService: AccountsService,
+                private router: Router) {
         this._initAutorun();
         this.showLogin = true;
         this._resetCredentialsFields();
     }
 
+    ngOnInit(){
+        if(this.accountsService.isLoggedIn()){
+            this.router.navigate(['/']);
+        }
+    }
+
     _initAutorun(): void {
         this.autorunComputation = Tracker.autorun(() => {
             this.zone.run(() => {
-                this.currentUser = this.accountsService.getCurrentUser();
             })
         });
     }

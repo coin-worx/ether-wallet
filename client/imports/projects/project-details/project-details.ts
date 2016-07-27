@@ -1,5 +1,5 @@
-import {Component, NgZone} from '@angular/core';
-import {ROUTER_DIRECTIVES, ActivatedRoute} from '@angular/router';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
 import {Projects} from "../../../../collections/projects.collection";
 
 //noinspection TypeScriptCheckImport
@@ -11,24 +11,30 @@ import {AccountsService} from "../../services/accounts.service";
     template,
     directives: [ROUTER_DIRECTIVES]
 })
-export class ProjectDetailsComponent {
+export class ProjectDetailsComponent implements OnInit {
     private projectId: string;
     private project: Project;
 
     constructor(private route: ActivatedRoute,
                 private ngZone: NgZone,
-                private accountsService: AccountsService) {
+                private accountsService: AccountsService,
+                private router: Router) {
     }
 
     ngOnInit() {
-        this.route.params.subscribe((params) => {
-            this.projectId = params['projectId'];
+        if(!this.accountsService.isLoggedIn()) {
+            this.router.navigate(['/']);
+        }
+        else {
+            this.route.params.subscribe((params) => {
+                this.projectId = params['projectId'];
 
-            Tracker.autorun(() => {
-                this.ngZone.run(() => {
-                    this.project = Projects.findOne(this.projectId);
+                Tracker.autorun(() => {
+                    this.ngZone.run(() => {
+                        this.project = Projects.findOne(this.projectId);
+                    });
                 });
             });
-        });
+        }
     }
 }

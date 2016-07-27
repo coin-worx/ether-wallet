@@ -1,6 +1,6 @@
 <div *ngIf="accountsService.isLoggedIn()">
     <div class="page-header">
-        <h2>Welcome {{accountsService.getCurrentUser().profile.name}}!</h2>
+        <h2>Welcome {{currentUser.name}}!</h2>
     </div>
     <div class="col-md-8">
         <div class="panel panel-primary">
@@ -8,14 +8,11 @@
             <div class="panel-body">
                 <dl class="dl-horizontal">
                     <dt>Email</dt>
-                    <dd>{{accountsService.getCurrentUser().emails[0].address}}</dd>
+                    <dd>{{currentUser.email}}</dd>
                     <dt>Ethereum Address</dt>
-                    <dd>{{accountsService.getCurrentUser().profile.eth_address}}</dd>
+                    <dd>{{currentUser.eth_address}}</dd>
                 </dl>
             </div>
         </div>
     </div>
-</div>
-<div *ngIf="!accountsService.isLoggedIn()">
-    <login-form></login-form>
 </div>

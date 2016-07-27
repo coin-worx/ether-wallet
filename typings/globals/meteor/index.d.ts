@@ -1117,7 +1117,7 @@ declare module "meteor/meteor" {
 }
 
 declare module Meteor {
-  /** Login **/
+  /** LoginComponent **/
   interface LoginWithExternalServiceOptions {
     requestPermissions ? : string[];
     requestOfflineToken ? : Boolean;
@@ -1158,7 +1158,7 @@ declare module Meteor {
   function logout(callback ? : Function): void;
 
   function logoutOtherClients(callback ? : Function): void;
-  /** Login **/
+  /** LoginComponent **/
 
   /** Event **/
   interface Event {
@@ -1200,7 +1200,7 @@ declare module "meteor/meteor" {
   /// <reference path="meteor.d.ts" />
 
   module Meteor {
-    /** Login **/
+    /** LoginComponent **/
     interface LoginWithExternalServiceOptions {
       requestPermissions ? : string[];
       requestOfflineToken ? : Boolean;
@@ -1241,7 +1241,7 @@ declare module "meteor/meteor" {
     function logout(callback ? : Function): void;
 
     function logoutOtherClients(callback ? : Function): void;
-    /** Login **/
+    /** LoginComponent **/
 
     /** Event **/
     interface Event {

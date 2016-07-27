@@ -2,23 +2,24 @@ import {Injectable, NgZone} from "@angular/core";
 import {Accounts} from 'meteor/accounts-base';
 import {Tracker} from 'meteor/tracker';
 import {Meteor} from 'meteor/meteor';
+import {Router} from "@angular/router";
 
 @Injectable()
 export class AccountsService {
     autorunComputation: Tracker.Computation;
     currentUser: Meteor.User;
     currentUserId: string;
-    loggingIn: boolean;
-    loggedIn: boolean;
+    loggingIn: boolean = false;
+    loggedIn: boolean = false;
     services: Array<any>;
     errors: Array<string>;
     isSignup: boolean;
     message: string;
 
-    constructor(private zone: NgZone) {
+    constructor(private zone: NgZone, private router: Router) {
         this._initAutorun();
         this.services = this._getLoginServices();
-        // this.resetErrors();
+        this.resetErrors();
         this.isSignup = false;
         // this._resetCredentialsFields();
     }
@@ -67,7 +68,7 @@ export class AccountsService {
                 this.errors.push(error.reason || "Unknown error");
             }
             else {
-                // this._resetCredentialsFields();
+                this.router.navigate(['/']);
             }
         });
     }
@@ -87,7 +88,10 @@ export class AccountsService {
     // }
 
     logout(): void {
-        Meteor.logout();
+        Meteor.logout(()=>{
+            this.loggedIn = false;
+            this.router.navigate(['/']);
+        });
     }
 
     signup(credentials: SignupCredentials): void {
@@ -103,6 +107,7 @@ export class AccountsService {
                 web3.personal.newAccount(credentials.eth_password, function(error, result) {
                     if(!error){
                         Meteor.users.update(userId, {$set: {"profile.eth_address": result}});
+                        self.router.navigate(['/']);
                     }
                     else{
                         Meteor.users.remove(userId);
