@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="22b1ea10-2771-4064-be14-d1a0f2dfeb88" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/app.html" afterPath="$PROJECT_DIR$/client/app.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/imports/services/accounts.service.ts" afterPath="$PROJECT_DIR$/client/imports/services/accounts.service.ts" />
     </list>
     <ignored path="socially.iws" />
@@ -17,7 +16,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="" />
+    <option name="PATCH_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
@@ -503,7 +502,7 @@
       <workItem from="1469562377826" duration="7718000" />
       <workItem from="1469600031053" duration="3436000" />
       <workItem from="1469608555775" duration="5522000" />
-      <workItem from="1469690635028" duration="1001000" />
+      <workItem from="1469690635028" duration="1069000" />
     </task>
     <task id="LOCAL-00001" summary="remove old unused files">
       <created>1469513680970</created>
@@ -575,11 +574,18 @@
       <option name="project" value="LOCAL" />
       <updated>1469613465106</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="hide navbar when user is not logged in">
+      <created>1469691845645</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1469691845645</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="88699000" />
+    <option name="totallyTimeSpent" value="88767000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -639,7 +645,8 @@
     <MESSAGE value="add styling using bootstrap" />
     <MESSAGE value="update styling" />
     <MESSAGE value="update navbar" />
-    <option name="LAST_COMMIT_MESSAGE" value="update navbar" />
+    <MESSAGE value="hide navbar when user is not logged in" />
+    <option name="LAST_COMMIT_MESSAGE" value="hide navbar when user is not logged in" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -928,7 +935,7 @@
         <state relative-caret-position="297">
           <caret line="34" column="1" selection-start-line="34" selection-start-column="1" selection-end-line="34" selection-end-column="1" />
           <folding>
-            <element signature="e#0#56#0" expanded="true" />
+            <element signature="e#0#56#0" expanded="false" />
           </folding>
         </state>
       </provider>

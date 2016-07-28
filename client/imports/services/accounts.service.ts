@@ -90,7 +90,7 @@ export class AccountsService {
     logout(): void {
         Meteor.logout(()=>{
             this.loggedIn = false;
-            this.router.navigate(['/']);
+            this.router.navigate(['/login']);
         });
     }
 
