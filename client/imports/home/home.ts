@@ -7,6 +7,7 @@ import {LoginComponent} from "../login/login";
 import template from './home.html';
 //noinspection TypeScriptCheckImport
 import style from './home.css';
+import {NavigationService} from "../services/navigation.service";
 
 @Component({
     selector: 'home',
@@ -21,19 +22,13 @@ export class HomeComponent implements OnInit {
 
     constructor(private zone: NgZone,
                 private accountsService: AccountsService,
+                private navigationService: NavigationService,
                 private router: Router) {
         this._initAutorun();
     }
 
     ngOnInit() {
-        if(!this.accountsService.isLoggedIn()) {
-            this.router.navigate(['/login']);
-        }
-        else {
-            // this.currentUser = this.accountsService.getCurrentUserAccount();
-            // this.currentEthAccount = EthAccounts.findOne({address: this.currentUser.eth_address});
-            // this.currentEthAccount.balance_unit = EthTools.formatBalance(this.currentEthAccount.balance, '0,0.0[00] unit');
-        }
+        this.navigationService.setActivePage('home');
     }
 
     _initAutorun(): void {
@@ -48,6 +43,9 @@ export class HomeComponent implements OnInit {
                             self.currentEthAccount.balance_unit = EthTools.formatBalance(self.currentEthAccount.balance, '0,0.0[00] unit');
                         }
                     }
+                }
+                else if(!self.accountsService.isLoggingIn()){
+                    self.router.navigate(['/login']);
                 }
             });
         });

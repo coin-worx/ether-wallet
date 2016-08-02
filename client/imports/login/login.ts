@@ -6,6 +6,7 @@ import {AccountsService} from "../services/accounts.service";
 import template from './login.html';
 //noinspection TypeScriptCheckImport
 import style from './login.css';
+import {NavigationService} from "../services/navigation.service";
 @Component({
     selector: 'login-form',
     template,
@@ -14,12 +15,13 @@ import style from './login.css';
 })
 export class LoginComponent implements OnInit{
     private autorunComputation: Tracker.Computation;
-    // private currentUser: Meteor.User;
     private showLogin: boolean = true;
     private credentials: SignupCredentials;
+    private isLoggedIn: boolean = false;
 
     constructor(private zone: NgZone,
                 private accountsService: AccountsService,
+                private navigationService: NavigationService,
                 private router: Router) {
         this._initAutorun();
         this.showLogin = true;
@@ -27,14 +29,17 @@ export class LoginComponent implements OnInit{
     }
 
     ngOnInit(){
-        if(this.accountsService.isLoggedIn()){
-            this.router.navigate(['/']);
-        }
+
     }
 
     _initAutorun(): void {
+        let self = this;
         this.autorunComputation = Tracker.autorun(() => {
             this.zone.run(() => {
+                self.isLoggedIn = self.accountsService.isLoggedIn();
+                if(self.isLoggedIn && self.navigationService.getCurrentUrl() == "/login"){
+                    self.router.navigate(['/']);
+                }
             })
         });
     }

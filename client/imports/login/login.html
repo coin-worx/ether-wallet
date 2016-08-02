@@ -1,4 +1,4 @@
-<form *ngIf="!accountsService.isLoggedIn()" class="form-signin">
+<form *ngIf="!isLoggedIn" class="form-signin">
     <div *ngIf="!showLogin">
         <h2 class="form-signin-heading">Signup</h2>
         <label for="inputName" class="sr-only">Name</label>

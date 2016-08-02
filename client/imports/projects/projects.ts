@@ -4,32 +4,38 @@ import {Projects} from "../../../collections/projects.collection";
 
 //noinspection TypeScriptCheckImport
 import template from './projects.html';
-
-import {isLoggedIn} from "../../lib/checkComponentAccess";
-
-import {CanActivate} from "@angular/router-deprecated";
 import {AccountsService} from "../services/accounts.service";
+import {NavigationService} from "../services/navigation.service";
 
 @Component({
-    selector: 'projects-list',
-    template,
-    directives: [ROUTER_DIRECTIVES]
+	selector: 'projects-list',
+	template,
+	directives: [ROUTER_DIRECTIVES]
 })
-// @CanActivate((to, from) => {
-//     console.log("canActivate");
-//     return isLoggedIn(to, from);
-// })
 export class ProjectsComponent implements OnInit{
-    private projects: Mongo.Cursor<Project>;
+	private projects: Mongo.Cursor<Project>;
+	private autorunComputation: Tracker.Computation;
 
-    constructor(private accountsService: AccountsService,
-                private router: Router){
-        this.projects = Projects.find();
-    }
+	constructor(private accountsService: AccountsService,
+				private navigationService: NavigationService,
+				private router: Router,
+				private zone: NgZone){
+		this._initAutorun();
+	}
 
-    ngOnInit(){
-        if(!this.accountsService.isLoggedIn()){
-            this.router.navigate(['/']);
-        }
-    }
+	ngOnInit(){
+		this.projects = Projects.find();
+		this.navigationService.setActivePage('projects');
+	}
+
+	_initAutorun(): void{
+		let self = this;
+		this.autorunComputation = Tracker.autorun(() =>{
+			this.zone.run(() =>{
+				if(!self.accountsService.isLoggedIn() && !self.accountsService.isLoggingIn()){
+					self.router.navigate(['/login']);
+				}
+			})
+		});
+	}
 }

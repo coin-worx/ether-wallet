@@ -5,6 +5,7 @@ import {Projects} from "../../../../collections/projects.collection";
 //noinspection TypeScriptCheckImport
 import template from './project-details.html';
 import {AccountsService} from "../../services/accounts.service";
+import {NavigationService} from "../../services/navigation.service";
 
 @Component({
     selector: 'project-details',
@@ -12,29 +13,37 @@ import {AccountsService} from "../../services/accounts.service";
     directives: [ROUTER_DIRECTIVES]
 })
 export class ProjectDetailsComponent implements OnInit {
+    private autorunComputation: Tracker.Computation;
     private projectId: string;
     private project: Project;
 
     constructor(private route: ActivatedRoute,
-                private ngZone: NgZone,
+                private zone: NgZone,
                 private accountsService: AccountsService,
+                private navigationService: NavigationService,
                 private router: Router) {
+        this._initAutorun();
     }
 
     ngOnInit() {
-        if(!this.accountsService.isLoggedIn()) {
-            this.router.navigate(['/']);
-        }
-        else {
-            this.route.params.subscribe((params) => {
-                this.projectId = params['projectId'];
+        this.route.params.subscribe((params) => {
+            this.projectId = params['projectId'];
+                    this.project = Projects.findOne(this.projectId);
+        });
+        this.navigationService.setActivePage('projects');
+    }
 
-                Tracker.autorun(() => {
-                    this.ngZone.run(() => {
-                        this.project = Projects.findOne(this.projectId);
-                    });
-                });
-            });
-        }
+    _initAutorun(): void{
+        let self = this;
+        this.autorunComputation = Tracker.autorun(() =>{
+            this.zone.run(() =>{
+                if(!self.accountsService.isLoggedIn() && !self.accountsService.isLoggingIn()){
+                    self.router.navigate(['/login']);
+                }
+                else if(self.projectId){
+                    self.project = Projects.findOne(self.projectId);
+                }
+            })
+        });
     }
 }
