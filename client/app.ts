@@ -16,32 +16,43 @@ import {AccountsService} from "./imports/services/accounts.service";
 import {appInjector} from "./lib/app-injector";
 import {ROUTER_PROVIDERS} from "@angular/router-deprecated";
 import {LoginComponent} from "./imports/login/login";
+import {NavigationService} from "./imports/services/navigation.service";
 
 @Component({
-    selector: 'app',
-    template,
-    style,
-    providers: [AccountsService],
-    directives: [ROUTER_DIRECTIVES]
+	selector: 'app',
+	template,
+	style,
+	providers: [AccountsService, NavigationService],
+	directives: [ROUTER_DIRECTIVES]
 })
-class PoC {
-    constructor(private accountsService: AccountsService) {
-    }
+class PoC{
+	private activePage: string;
+
+	constructor(private accountsService: AccountsService,
+				private navigationService: NavigationService){
+		this._initAutorun();
+	}
+
+	_initAutorun(){
+		Tracker.autorun(()=>{
+			this.activePage = this.navigationService.getActivePage();
+		});
+	}
 }
 
 const routes: RouterConfig = [
-    {path: '', component: HomeComponent},
-    {path: 'login', component: LoginComponent},
-    {path: 'projects', component: ProjectsComponent},
-    {path: 'project/:projectId', component: ProjectDetailsComponent},
+	{path: '', component: HomeComponent},
+	{path: 'login', component: LoginComponent},
+	{path: 'projects', component: ProjectsComponent},
+	{path: 'project/:projectId', component: ProjectDetailsComponent},
 ];
 
 const APP_ROUTER_PROVIDERS = [
-    provideRouter(routes)
+	provideRouter(routes)
 ];
 
 bootstrap(PoC, [APP_ROUTER_PROVIDERS, ROUTER_PROVIDERS, provide(APP_BASE_HREF, {useValue: '/'})])
-    .then((appRef) => {
-        // store a reference to the injector
-        appInjector(appRef.injector);
-    });
+	.then((appRef) =>{
+		// store a reference to the injector
+		appInjector(appRef.injector);
+	});
