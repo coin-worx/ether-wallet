@@ -12,7 +12,6 @@ export class NavigationService{
 
 	getCurrentUrl(): string{
 		let currentUrl = this.router.location._platformStrategy._platformLocation.pathname;
-		console.log("Current url: ", currentUrl);
 		return currentUrl;
 	}
 
