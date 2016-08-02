@@ -1,4 +1,4 @@
-<div *ngIf="accountsService.isLoggedIn()">
+<div *ngIf="currentUser">
     <div class="page-header">
         <h2>Welcome {{currentUser.name}}!</h2>
     </div>
@@ -6,12 +6,27 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Account Information</div>
             <div class="panel-body">
-                <dl class="dl-horizontal">
-                    <dt>Email</dt>
-                    <dd>{{currentUser.email}}</dd>
-                    <dt>Ethereum Address</dt>
-                    <dd>{{currentUser.eth_address}}</dd>
-                </dl>
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td class="pull-right"><strong>Email</strong></td>
+                        <td>{{currentUser.email}}</td>
+                    </tr>
+                    <tr>
+                        <td class="pull-right"><strong>Ethereum Address</strong></td>
+                        <td>
+                            <div>
+                                <img class="dapp-identicon dapp-small pull-left" src="{{currentUser.identicon}}"/>
+                                <h5 class="col-offset-sm-1 col-sm-9">{{currentUser.eth_address}}</h5>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="pull-right"><strong>Balance</strong></td>
+                        <td>{{currentEthAccount.balance_unit}}</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -20,3 +20,6 @@ angular2-compilers
 barbatus:angular2-runtime
 accounts-password
 ethereum:web3
+ethereum:accounts
+ethereum:elements
+ethereum:dapp-styles

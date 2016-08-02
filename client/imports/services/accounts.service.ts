@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 @Injectable()
 export class AccountsService {
     autorunComputation: Tracker.Computation;
+    trackerDependency: Tracker.Dependency;
     currentUser: Meteor.User;
     currentUserId: string;
     loggingIn: boolean = false;
@@ -17,10 +18,11 @@ export class AccountsService {
     message: string;
 
     constructor(private zone: NgZone, private router: Router) {
-        this._initAutorun();
         this.services = this._getLoginServices();
         this.resetErrors();
         this.isSignup = false;
+        this.trackerDependency = new Tracker.Dependency;
+        this._initAutorun();
         // this._resetCredentialsFields();
     }
 
@@ -88,7 +90,7 @@ export class AccountsService {
     // }
 
     logout(): void {
-        Meteor.logout(()=>{
+        Meteor.logout(()=> {
             this.loggedIn = false;
             this.router.navigate(['/login']);
         });
@@ -105,11 +107,11 @@ export class AccountsService {
                 let userId = Meteor.userId();
                 let self = this;
                 web3.personal.newAccount(credentials.eth_password, function(error, result) {
-                    if(!error){
+                    if(!error) {
                         Meteor.users.update(userId, {$set: {"profile.eth_address": result}});
                         self.router.navigate(['/']);
                     }
-                    else{
+                    else {
                         Meteor.users.remove(userId);
                         Meteor.logout();
                         self.errors.push("Unable to create account. Please try again!");
@@ -142,19 +144,39 @@ export class AccountsService {
                 this.currentUserId = Meteor.userId();
                 this.loggingIn = Meteor.loggingIn();
                 this.loggedIn = !!Meteor.user();
+                this.trackerDependency.changed();
             })
         });
     }
 
     getCurrentUser(): Meteor.User {
+        this.trackerDependency.depend();
         return this.currentUser;
     }
 
+    getCurrentUserAccount(): Account {
+        // this.trackerDependency.depend();
+        let user = null; //{name: "", email: "", eth_address: "", identicon: ""};
+        if(this.isLoggedIn()) {
+            user = {};
+            user.name = this.currentUser.profile.name;
+            user.email = this.currentUser.emails[0].address;
+            user.eth_address = this.currentUser.profile.eth_address;
+            user.identicon = blockies.create({
+                seed: user.eth_address,
+                size: 8,
+                scale: 8
+            }).toDataURL();
+        }
+        return user;
+    }
+
     isLoggedIn(): boolean {
+        this.trackerDependency.depend();
         return this.loggedIn;
     }
 
-    isLoggingIn(): boolean{
+    isLoggingIn(): boolean {
         return this.loggingIn;
     }
 

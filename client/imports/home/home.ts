@@ -14,9 +14,10 @@ import style from './home.css';
     style,
     directives: [LoginComponent, ROUTER_DIRECTIVES]
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
     private autorunComputation: Tracker.Computation;
     private currentUser: Account;
+    private currentEthAccount: any;
 
     constructor(private zone: NgZone,
                 private accountsService: AccountsService,
@@ -24,25 +25,33 @@ export class HomeComponent implements OnInit{
         this._initAutorun();
     }
 
-    ngOnInit(){
-        if(!this.accountsService.isLoggedIn()){
+    ngOnInit() {
+        if(!this.accountsService.isLoggedIn()) {
             this.router.navigate(['/login']);
         }
-        else{
-            let user = this.accountsService.getCurrentUser();
-            this.currentUser = {
-                name: user.profile.name,
-                email: user.emails[0].address,
-                eth_address: user.profile.eth_address
-            }
+        else {
+            // this.currentUser = this.accountsService.getCurrentUserAccount();
+            // this.currentEthAccount = EthAccounts.findOne({address: this.currentUser.eth_address});
+            // this.currentEthAccount.balance_unit = EthTools.formatBalance(this.currentEthAccount.balance, '0,0.0[00] unit');
         }
     }
 
     _initAutorun(): void {
+        let self = this;
         this.autorunComputation = Tracker.autorun(() => {
             this.zone.run(() => {
-            })
+                if(self.accountsService.isLoggedIn()) {
+                    self.currentUser = self.accountsService.getCurrentUserAccount();
+                    if(self.currentUser) {
+                        self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
+                        if(self.currentEthAccount) {
+                            self.currentEthAccount.balance_unit = EthTools.formatBalance(self.currentEthAccount.balance, '0,0.0[00] unit');
+                        }
+                    }
+                }
+            });
         });
     }
+
 
 }
