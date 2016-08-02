@@ -2,15 +2,15 @@ import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
 
 @Injectable()
-export class NavigationService {
+export class NavigationService{
 	private activePage: string;
 	private trackerDependency: Tracker.Dependency;
 
-	constructor(private router: Router) {
+	constructor(private router: Router){
 		this.trackerDependency = new Tracker.Dependency;
 	}
 
-	getCurrentUrl(): string {
+	getCurrentUrl(): string{
 		let currentUrl = this.router.location._platformStrategy._platformLocation.pathname;
 		console.log("Current url: ", currentUrl);
 		return currentUrl;

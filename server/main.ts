@@ -4,7 +4,7 @@ import {Meteor} from 'meteor/meteor';
 Meteor.startup(loadProjects);
 
 Meteor.users.allow({
-    remove: (userId, doc) => {
-        return true;
-    }
+	remove: (userId, doc) =>{
+		return true;
+	}
 });

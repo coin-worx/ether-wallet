@@ -10,46 +10,46 @@ import style from './home.css';
 import {NavigationService} from "../services/navigation.service";
 
 @Component({
-    selector: 'home',
-    template,
-    style,
-    directives: [LoginComponent, ROUTER_DIRECTIVES]
+	selector: 'home',
+	template,
+	style,
+	directives: [LoginComponent, ROUTER_DIRECTIVES]
 })
-export class HomeComponent implements OnInit {
-    private autorunComputation: Tracker.Computation;
-    private currentUser: Account;
-    private currentEthAccount: any;
+export class HomeComponent implements OnInit{
+	private autorunComputation: Tracker.Computation;
+	private currentUser: Account;
+	private currentEthAccount: any;
 
-    constructor(private zone: NgZone,
-                private accountsService: AccountsService,
-                private navigationService: NavigationService,
-                private router: Router) {
-        this._initAutorun();
-    }
+	constructor(private zone: NgZone,
+				private accountsService: AccountsService,
+				private navigationService: NavigationService,
+				private router: Router){
+		this._initAutorun();
+	}
 
-    ngOnInit() {
-        this.navigationService.setActivePage('home');
-    }
+	ngOnInit(){
+		this.navigationService.setActivePage('home');
+	}
 
-    _initAutorun(): void {
-        let self = this;
-        this.autorunComputation = Tracker.autorun(() => {
-            this.zone.run(() => {
-                if(self.accountsService.isLoggedIn()) {
-                    self.currentUser = self.accountsService.getCurrentUserAccount();
-                    if(self.currentUser) {
-                        self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
-                        if(self.currentEthAccount) {
-                            self.currentEthAccount.balance_unit = EthTools.formatBalance(self.currentEthAccount.balance, '0,0.0[00] unit');
-                        }
-                    }
-                }
-                else if(!self.accountsService.isLoggingIn()){
-                    self.router.navigate(['/login']);
-                }
-            });
-        });
-    }
+	_initAutorun(): void{
+		let self = this;
+		this.autorunComputation = Tracker.autorun(() =>{
+			this.zone.run(() =>{
+				if(self.accountsService.isLoggedIn()){
+					self.currentUser = self.accountsService.getCurrentUserAccount();
+					if(self.currentUser){
+						self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
+						if(self.currentEthAccount){
+							self.currentEthAccount.balance_unit = EthTools.formatBalance(self.currentEthAccount.balance, '0,0.0[00] unit');
+						}
+					}
+				}
+				else if(!self.accountsService.isLoggingIn()){
+					self.router.navigate(['/login']);
+				}
+			});
+		});
+	}
 
 
 }
