@@ -17,6 +17,7 @@ import {appInjector} from "./lib/app-injector";
 import {ROUTER_PROVIDERS} from "@angular/router-deprecated";
 import {LoginComponent} from "./imports/login/login";
 import {NavigationService} from "./imports/services/navigation.service";
+import {TransferFundsComponent} from "./imports/transfer-funds/transfer-funds";
 
 @Component({
 	selector: 'app',
@@ -45,6 +46,7 @@ const routes: RouterConfig = [
 	{path: 'login', component: LoginComponent},
 	{path: 'projects', component: ProjectsComponent},
 	{path: 'project/:projectId', component: ProjectDetailsComponent},
+	{path: 'transfer-funds', component: TransferFundsComponent},
 ];
 
 const APP_ROUTER_PROVIDERS = [

@@ -8,3 +8,7 @@ Meteor.users.allow({
 		return true;
 	}
 });
+
+Meteor.publish("allUsers", function () {
+	return Meteor.users.find({});
+});

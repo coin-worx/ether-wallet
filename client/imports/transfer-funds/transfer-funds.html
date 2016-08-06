@@ -1,0 +1,52 @@
+<div *ngIf="currentUser && currentEthAccount">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="page-header">
+                <h3>Transfer Funds</h3>
+            </div>
+            <div class="page-header">
+                <h4 class="text-info">Your Balance: {{currentEthAccount.balance_unit}}</h4>
+            </div>
+            <div class="col-sm-8">
+                <form class="form-horizontal" (submit)="transfer($event)">
+                    <div *ngIf="message && message.length > 0">
+                        <h4 class="text-success">{{message}}</h4>
+                    </div>
+                    <div *ngIf="errors && errors.length > 0">
+                        <ul>
+                            <li *ngFor="let error of errors" class="text-danger">{{error}}</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="target-email" class="col-sm-3 control-label">Target Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" id="target-email" placeholder="Target Email"
+                                   [(ngModel)]="formData.target_email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ethereum-password" class="col-sm-3 control-label">Ethereum Password</label>
+                        <div class="col-sm-9">
+                            <input type="password" class="form-control" id="ethereum-password"
+                                   placeholder="Ethereum Password" [(ngModel)]="formData.eth_password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="amount">Amount (in {{getUnit()}})</label>
+                        <div class=" col-sm-9">
+                            <input type="text" class="form-control" id="amount" placeholder="Amount (in {{getUnit()}})"
+                                   [(ngModel)]="formData.amount" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-primary" [disabled]="isTransferring">{{formData.button_text}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
