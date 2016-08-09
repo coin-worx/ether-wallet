@@ -19,6 +19,7 @@ export class TransferFundsComponent implements OnInit{
 	private message: string;
 	private errors: Array<string>;
 	private isTransferring: boolean = false;
+	private isBalanceUpdated: boolean = false;
 
 	constructor(private accountsService: AccountsService,
 				private navigationService: NavigationService,
@@ -43,6 +44,11 @@ export class TransferFundsComponent implements OnInit{
 						self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
 						if(self.currentEthAccount){
 							self.currentEthAccount.balance_unit = EthTools.formatBalance(self.currentEthAccount.balance, '0,0.0[00] unit');
+							self.isBalanceUpdated = false;
+							setTimeout(()=>{
+								self.isBalanceUpdated = true;
+							}, 100);
+
 						}
 					}
 				}

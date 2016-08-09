@@ -5,7 +5,7 @@
                 <h3>Transfer Funds</h3>
             </div>
             <div class="page-header">
-                <h4 class="text-info">Your Balance: {{currentEthAccount.balance_unit}}</h4>
+                <h4 class="text-info">Your Balance: <span [ngClass]="{'flash' : isBalanceUpdated}">{{currentEthAccount.balance_unit}}</span></h4>
             </div>
             <div class="col-sm-8">
                 <form class="form-horizontal" (submit)="transfer($event)">

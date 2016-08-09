@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit{
 	private autorunComputation: Tracker.Computation;
 	private currentUser: Account;
 	private currentEthAccount: any;
+	private isBalanceUpdated: boolean = false;
 
 	constructor(private zone: NgZone,
 				private accountsService: AccountsService,
@@ -41,6 +42,10 @@ export class HomeComponent implements OnInit{
 						self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
 						if(self.currentEthAccount){
 							self.currentEthAccount.balance_unit = EthTools.formatBalance(self.currentEthAccount.balance, '0,0.0[00] unit');
+							self.isBalanceUpdated = false;
+							setTimeout(()=>{
+								self.isBalanceUpdated = true;
+							}, 100);
 						}
 					}
 				}
