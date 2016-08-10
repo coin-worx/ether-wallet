@@ -1,16 +1,14 @@
 <div *ngIf="project">
-    <div class="page-header">
-        <h3>{{project.title}}</h3>
-    </div>
-    <div class="panel panel-success">
-        <div class="panel-heading">Project Details</div>
-        <div class="panel-body">
-            <dl class="dl-horizontal">
-                <dt>Description</dt>
-                <dd>{{project.description}}</dd>
-                <dt>Risk Level</dt>
-                <dd>{{project.risk_level}}</dd>
-            </dl>
+    <div class="panel panel-body">
+        <div class="page-header">
+            <h3>{{project.title}}</h3>
         </div>
+        <dl class="dl-horizontal">
+            <dt>Description</dt>
+            <dd>{{project.description}}</dd>
+            <dt>Risk Level</dt>
+            <dd>{{project.risk_level}}</dd>
+        </dl>
+
     </div>
 </div>
