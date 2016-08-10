@@ -18,6 +18,7 @@ import {ROUTER_PROVIDERS} from "@angular/router-deprecated";
 import {LoginComponent} from "./imports/login/login";
 import {NavigationService} from "./imports/services/navigation.service";
 import {TransferFundsComponent} from "./imports/transfer-funds/transfer-funds";
+import {SurveyComponent} from "./imports/survey/survey";
 
 @Component({
 	selector: 'app',
@@ -47,6 +48,7 @@ const routes: RouterConfig = [
 	{path: 'projects', component: ProjectsComponent},
 	{path: 'project/:projectId', component: ProjectDetailsComponent},
 	{path: 'transfer-funds', component: TransferFundsComponent},
+	{path: 'survey', component: SurveyComponent},
 ];
 
 const APP_ROUTER_PROVIDERS = [
