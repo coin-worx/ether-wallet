@@ -24,7 +24,7 @@
                         </tr>
                         <tr>
                             <td class="pull-right"><strong>Balance</strong></td>
-                            <td><span [ngClass]="{'flash' : isBalanceUpdated}">{{currentEthAccount.balance_unit}}</span></td>
+                            <td><span [ngClass]="{'flash' : isBalanceUpdated}" *ngIf="currentEthAccount">{{currentEthAccount.balance_unit}}</span></td>
                         </tr>
                         </tbody>
                     </table>
