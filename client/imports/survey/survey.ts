@@ -7,6 +7,7 @@ import template from './survey.html';
 //noinspection TypeScriptCheckImport
 import {NavigationService} from "../services/navigation.service";
 import {Projects} from "../../../collections/projects.collection";
+import user = Accounts.user;
 
 @Component({
 	selector: 'survey-form',
@@ -27,7 +28,7 @@ export class SurveyComponent implements OnInit{
 	}
 
 	ngOnInit(){
-		this.navigationService.setActivePage('survey');
+		this.navigationService.setActivePage('home');
 		this.isSurveyComplete = false;
 		this.formData = {risk_level: "low"};
 	}
@@ -39,13 +40,30 @@ export class SurveyComponent implements OnInit{
 				if(!self.accountsService.isLoggedIn() && !self.accountsService.isLoggingIn()){
 					self.router.navigate(['/login']);
 				}
+				else{
+					let currentUser = self.accountsService.getCurrentUserAccount();
+					if(currentUser && currentUser.isSurveyCompleted){
+						self.router.navigate(['/']);
+					}
+				}
 			});
 		});
 	}
 
 	submitSurvey(e){
 		e.preventDefault();
-		this.result.projects = Projects.find({risk_level: {$regex: new RegExp(this.formData.risk_level, "i")}});
-		this.isSurveyComplete = true;
+		let risk_level = this.formData.risk_level;
+		// this.result.projects = Projects.find({risk_level: {$regex: new RegExp(risk_level, "i")}});
+		let userId = Meteor.userId();
+		Meteor.users.update(userId, {
+			$set: {
+				"profile.isSurveyCompleted": true,
+				"profile.survey": {"risk_level": risk_level}
+			}
+		});
+		// this.isSurveyComplete = true;
+		setTimeout(()=>{
+			this.router.navigate(['/']);
+		}, 100);
 	}
 }

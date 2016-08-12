@@ -11,17 +11,21 @@
                         <div class="col-sm-offset-1">
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="risk-level" (change)="formData.risk_level = 'low'" id="risk-level-1" value="low" checked> Low
+                                    <input type="radio" name="risk-level" (change)="formData.risk_level = 'low'"
+                                           id="risk-level-1" value="low" [checked]="formData.risk_level=='low'"> Low
                                 </label>
                             </div>
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="risk-level" (change)="formData.risk_level = 'medium'" id="risk-level-2" value="medium"> Medium
+                                    <input type="radio" name="risk-level" (change)="formData.risk_level = 'medium'"
+                                           id="risk-level-2" value="medium" [checked]="formData.risk_level=='medium'">
+                                    Medium
                                 </label>
                             </div>
                             <div class="radio">
                                 <label>
-                                    <input type="radio" name="risk-level" (change)="formData.risk_level = 'high'" id="risk-level-3" value="high"> High
+                                    <input type="radio" name="risk-level" (change)="formData.risk_level = 'high'"
+                                           id="risk-level-3" value="high" [checked]="formData.risk_level=='high'"> High
                                 </label>
                             </div>
                         </div>

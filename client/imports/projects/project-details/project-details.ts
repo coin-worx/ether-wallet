@@ -40,8 +40,14 @@ export class ProjectDetailsComponent implements OnInit{
 				if(!self.accountsService.isLoggedIn() && !self.accountsService.isLoggingIn()){
 					self.router.navigate(['/login']);
 				}
-				else if(self.projectId){
-					self.project = Projects.findOne(self.projectId);
+				else{
+					let currentUser = self.accountsService.getCurrentUserAccount();
+					if(currentUser && !currentUser.isSurveyCompleted){
+						self.router.navigate(['/survey']);
+					}
+					else if(self.projectId){
+						self.project = Projects.findOne(self.projectId);
+					}
 				}
 			})
 		});

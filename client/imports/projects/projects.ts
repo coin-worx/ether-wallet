@@ -35,6 +35,12 @@ export class ProjectsComponent implements OnInit{
 				if(!self.accountsService.isLoggedIn() && !self.accountsService.isLoggingIn()){
 					self.router.navigate(['/login']);
 				}
+				else{
+					let currentUser = self.accountsService.getCurrentUserAccount();
+					if(currentUser && !currentUser.isSurveyCompleted){
+						self.router.navigate(['/survey']);
+					}
+				}
 			})
 		});
 	}

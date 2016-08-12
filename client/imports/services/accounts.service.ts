@@ -160,13 +160,17 @@ export class AccountsService{
 		if(this.isLoggedIn() && this.currentUser){
 			user = {};
 			user.name = this.currentUser.profile.name;
-			user.email = this.currentUser.emails ? this.currentUser.emails[0].address : "";
+			user.email = this.currentUser.emails ? this.currentUser.emails[0].address: "";
 			user.eth_address = this.currentUser.profile.eth_address;
 			user.identicon = blockies.create({
 				seed: user.eth_address,
 				size: 8,
 				scale: 8
 			}).toDataURL();
+			user.isSurveyCompleted = this.currentUser.profile.isSurveyCompleted;
+			if(user.isSurveyCompleted){
+				user.survey = this.currentUser.profile.survey;
+			}
 		}
 		return user;
 	}
