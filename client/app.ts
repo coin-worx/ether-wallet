@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import {Component, provide} from '@angular/core';
+import {Component, provide, OnInit} from '@angular/core';
 import {bootstrap} from 'angular2-meteor-auto-bootstrap';
 import {provideRouter, RouterConfig, ROUTER_DIRECTIVES} from '@angular/router';
 import {APP_BASE_HREF} from '@angular/common';
@@ -27,18 +27,34 @@ import {SurveyComponent} from "./imports/survey/survey";
 	providers: [AccountsService, NavigationService],
 	directives: [ROUTER_DIRECTIVES]
 })
-class PoC{
+class PoC implements OnInit{
 	private activePage: string;
+	private currencies: Array<string>;
+	private formData: any;
 
 	constructor(private accountsService: AccountsService,
 				private navigationService: NavigationService){
+		this.currencies = ['ether','usd','eur','btc','finney','wei'];
+		this.formData = {};
 		this._initAutorun();
+	}
+
+	ngOnInit(){
+
 	}
 
 	_initAutorun(){
 		Tracker.autorun(()=>{
 			this.activePage = this.navigationService.getActivePage();
+			this.formData.currency = EthTools.getUnit();
 		});
+	}
+
+	changeCurrency(data){
+		let currency = data;
+		if(this.currencies.indexOf(currency) > -1){
+			EthTools.setUnit(currency);
+		}
 	}
 }
 
