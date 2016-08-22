@@ -19,6 +19,8 @@ import {LoginComponent} from "./imports/login/login";
 import {NavigationService} from "./imports/services/navigation.service";
 import {TransferFundsComponent} from "./imports/transfer-funds/transfer-funds";
 import {SurveyComponent} from "./imports/survey/survey";
+import {WalletsComponent} from "./imports/wallets/wallets";
+import {WalletDetailsComponent} from "./imports/wallets/wallet-details/wallet-details";
 
 @Component({
 	selector: 'app',
@@ -65,6 +67,8 @@ const routes: RouterConfig = [
 	{path: 'project/:projectId', component: ProjectDetailsComponent},
 	{path: 'transfer-funds', component: TransferFundsComponent},
 	{path: 'survey', component: SurveyComponent},
+	{path: 'wallets', component: WalletsComponent},
+	{path: 'wallet/:walletId', component: WalletDetailsComponent},
 ];
 
 const APP_ROUTER_PROVIDERS = [

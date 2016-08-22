@@ -1,0 +1,62 @@
+<div *ngIf="wallets">
+    <div class="panel panel-body">
+        <div class="page-header">
+            <h2>Wallets</h2>
+        </div>
+        <div class="panel-body">
+            <div *ngIf="formData.message && formData.message.length > 0">
+                <h4 class="text-success">{{formData.message}}</h4>
+            </div>
+            <div *ngIf="formData.errors && formData.errors.length > 0">
+                <ul>
+                    <li *ngFor="let error of formData.errors" class="text-danger">{{error}}</li>
+                </ul>
+            </div>
+            <form *ngIf="isCreateWallet" class="form-horizontal" (submit)="createWallet($event)">
+                <div class="form-group">
+                    <label for="wallet-title" class="col-sm-2 control-label">Title</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control" id="wallet-title" placeholder="Wallet Title"
+                               [(ngModel)]="formData.wallet_title" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-5">
+                        <button type="submit" class="btn btn-primary" [disabled]="formData.isCreating">Submit</button>
+                        <button type="reset" class="btn btn-default" [disabled]="formData.isCreating" (click)="isCreateWallet=false;resetErrors();resetData();">Cancel</button>
+                    </div>
+                </div>
+            </form>
+            <button (click)="isCreateWallet=true" *ngIf="!isCreateWallet" class="btn btn-primary">Create Wallet</button>
+        </div>
+        <div class="panel">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Owner</th>
+                    <th>Balance</th>
+                    <th>Contributors</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let wallet of wallets" [ngClass]="{'success': (wallet.owner.email==currentUser.email),'warning': (wallet.owner.email!=currentUser.email)}">
+                    <td>{{wallet.title}}</td>
+                    <td>{{wallet.owner.name}}</td>
+                    <td>{{accountsService.formatBalance(wallet.balance)}}</td>
+                    <td>
+                        <span *ngFor="let contributor of wallet.contributors; let i = index">
+                            {{contributor.name}}<label *ngIf="i+1<wallet.contributors.length">,</label>
+                        </span>
+                    </td>
+                    <td>
+                        <a [routerLink]="['/wallet', wallet._id]"><span class="glyphicon glyphicon-eye-open"
+                                                                          aria-hidden="true"></span></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
