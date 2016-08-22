@@ -159,6 +159,7 @@ export class AccountsService{
 		let user = null; //{name: "", email: "", eth_address: "", identicon: ""};
 		if(this.isLoggedIn() && this.currentUser){
 			user = {};
+			user.id = this.currentUser._id;
 			user.name = this.currentUser.profile.name;
 			user.email = this.currentUser.emails ? this.currentUser.emails[0].address: "";
 			user.eth_address = this.currentUser.profile.eth_address;
