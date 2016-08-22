@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit{
 						else{
 							self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
 							if(self.currentEthAccount){
-								self.currentEthAccount.balance_unit = EthTools.formatBalance(self.currentEthAccount.balance, '0,0.0[00] unit');
+								self.currentEthAccount.balance_unit = self.accountsService.formatBalance(self.currentEthAccount.balance);
 								self.isBalanceUpdated = false;
 								setTimeout(()=>{
 									self.isBalanceUpdated = true;

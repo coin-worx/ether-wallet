@@ -187,4 +187,8 @@ export class AccountsService{
 	getErrors(){
 		return this.errors;
 	}
+	
+	formatBalance(balanceInWei: number): string{
+		return EthTools.formatBalance(balanceInWei, '0,0.0[00] unit');
+	}
 }
