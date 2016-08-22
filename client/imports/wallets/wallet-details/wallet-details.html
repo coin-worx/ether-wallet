@@ -1,0 +1,73 @@
+<div *ngIf="wallet">
+    <div class="panel panel-body">
+        <div class="page-header">
+            <h3>{{wallet.title}}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-5">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr>
+                            <td><strong>Owner</strong></td>
+                            <td>{{wallet.owner.name}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Balance</strong></td>
+                            <td>{{accountsService.formatBalance(wallet.balance)}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <h3>Contributors</h3>
+                <div class="panel-body">
+                    <div *ngIf="formData.message && formData.message.length > 0">
+                        <h4 class="text-success">{{formData.message}}</h4>
+                    </div>
+                    <div *ngIf="formData.errors && formData.errors.length > 0">
+                        <ul>
+                            <li *ngFor="let error of formData.errors" class="text-danger">{{error}}</li>
+                        </ul>
+                    </div>
+                    <form *ngIf="isAddContributor" class="form-horizontal" (submit)="addContributor($event)">
+                        <div class="form-group">
+                            <label for="contributor-email" class="col-sm-2 control-label">Contributor's Email</label>
+                            <div class="col-sm-5">
+                                <input type="email" class="form-control" id="contributor-email" placeholder="Contributor's Email address"
+                                       [(ngModel)]="formData.contributor_email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <button type="submit" class="btn btn-primary" [disabled]="formData.isCreating">Submit</button>
+                                <button type="reset" class="btn btn-default" [disabled]="formData.isCreating" (click)="isAddContributor=false;resetErrors();resetData();">Cancel</button>
+                            </div>
+                        </div>
+                    </form>
+                    <button (click)="isAddContributor=true" *ngIf="!isAddContributor" class="btn btn-primary">Add Contributor</button>
+                </div>
+                <div class="col-sm-7">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="info">
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let contributor of wallet.contributors">
+                            <td>{{contributor.name}}</td>
+                            <td>{{contributor.email}}</td>
+                            <td><a href="javascript:void(0);" (click)="removeContributor(contributor)" title="Remove Contributor"><span class="glyphicon glyphicon-remove"
+                                                                    aria-hidden="true"></span></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
