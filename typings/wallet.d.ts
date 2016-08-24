@@ -1,7 +1,7 @@
 interface Wallet{
 	_id?: string;
 	title: string;
-	description?: string;
+	eth_address: string;
 	owner: Account;
 	balance: number;
 	contributors: Array<Account>;

@@ -67,7 +67,7 @@ export class WalletsComponent implements OnInit{
 		this.resetErrors();
 		if(this.currentUser){
 			let wallet_title = this.formData.wallet_title;
-			Wallets.insert({title: wallet_title, balance: 0, owner: this.currentUser});
+			Wallets.insert({title: wallet_title, balance: 0, owner: this.currentUser, eth_address: wallet_title});
 			this.formData.message = "Wallet created successfully.";
 			this.resetData();
 			this.isCreateWallet = false;

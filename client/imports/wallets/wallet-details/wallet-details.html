@@ -6,7 +6,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-sm-5">
-                    <table class="table table-hover">
+                    <table class="table">
                         <tbody>
                         <tr>
                             <td><strong>Owner</strong></td>
@@ -23,30 +23,36 @@
             <div class="row">
                 <h3>Contributors</h3>
                 <div class="panel-body">
-                    <div *ngIf="formData.message && formData.message.length > 0">
-                        <h4 class="text-success">{{formData.message}}</h4>
+                    <div *ngIf="formData.contributor_message && formData.contributor_message.length > 0">
+                        <h4 class="text-success">{{formData.contributor_message}}</h4>
                     </div>
-                    <div *ngIf="formData.errors && formData.errors.length > 0">
+                    <div *ngIf="formData.contributor_errors && formData.contributor_errors.length > 0">
                         <ul>
-                            <li *ngFor="let error of formData.errors" class="text-danger">{{error}}</li>
+                            <li *ngFor="let error of formData.contributor_errors" class="text-danger">{{error}}</li>
                         </ul>
                     </div>
                     <form *ngIf="isAddContributor" class="form-horizontal" (submit)="addContributor($event)">
                         <div class="form-group">
                             <label for="contributor-email" class="col-sm-2 control-label">Contributor's Email</label>
                             <div class="col-sm-5">
-                                <input type="email" class="form-control" id="contributor-email" placeholder="Contributor's Email address"
+                                <input type="email" class="form-control" id="contributor-email"
+                                       placeholder="Contributor's Email address"
                                        [(ngModel)]="formData.contributor_email" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-5">
-                                <button type="submit" class="btn btn-primary" [disabled]="formData.isCreating">Submit</button>
-                                <button type="reset" class="btn btn-default" [disabled]="formData.isCreating" (click)="isAddContributor=false;resetErrors();resetData();">Cancel</button>
+                                <button type="submit" class="btn btn-primary" [disabled]="formData.isCreating">Submit
+                                </button>
+                                <button type="reset" class="btn btn-default" [disabled]="formData.isCreating"
+                                        (click)="isAddContributor=false;resetErrors('contributor');resetData('contributor');">Cancel
+                                </button>
                             </div>
                         </div>
                     </form>
-                    <button (click)="isAddContributor=true" *ngIf="!isAddContributor" class="btn btn-primary">Add Contributor</button>
+                    <button (click)="isAddContributor=true" *ngIf="!isAddContributor" class="btn btn-primary">Add
+                        Contributor
+                    </button>
                 </div>
                 <div class="col-sm-7">
                     <table class="table table-hover">
@@ -61,8 +67,106 @@
                         <tr *ngFor="let contributor of wallet.contributors">
                             <td>{{contributor.name}}</td>
                             <td>{{contributor.email}}</td>
-                            <td><a href="javascript:void(0);" (click)="removeContributor(contributor)" title="Remove Contributor"><span class="glyphicon glyphicon-remove"
+                            <td><a href="javascript:void(0);" (click)="removeContributor(contributor)"
+                                   title="Remove Contributor"><span class="glyphicon glyphicon-remove"
                                                                     aria-hidden="true"></span></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <h3>Transactions</h3>
+                <div class="panel-body">
+                    <div *ngIf="formData.withdraw_message && formData.withdraw_message.length > 0">
+                        <h4 class="text-success">{{formData.withdraw_message}}</h4>
+                    </div>
+                    <div *ngIf="formData.withdraw_errors && formData.withdraw_errors.length > 0">
+                        <ul>
+                            <li *ngFor="let error of formData.withdraw_errors" class="text-danger">{{error}}</li>
+                        </ul>
+                    </div>
+                    <form *ngIf="isWithdraw" class="form-horizontal" (submit)="withdraw($event)">
+                        <div class="form-group">
+                            <label for="target-email" class="col-sm-2 control-label">Target Email</label>
+                            <div class="col-sm-5">
+                                <input type="email" class="form-control" id="target-email"
+                                       placeholder="Target Email address"
+                                       [(ngModel)]="formData.target_email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount" class="col-sm-2 control-label">Amount (in Ether)</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="amount"
+                                       placeholder="Amount (in Ether)"
+                                       [(ngModel)]="formData.withdraw_amount" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <button type="submit" class="btn btn-primary" [disabled]="formData.isWithdrawing">Submit
+                                </button>
+                                <button type="reset" class="btn btn-default" [disabled]="formData.isWithdrawing"
+                                        (click)="isWithdraw=false;resetErrors('withdraw');resetData('withdraw');">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div *ngIf="formData.deposit_message && formData.deposit_message.length > 0">
+                        <h4 class="text-success">{{formData.deposit_message}}</h4>
+                    </div>
+                    <div *ngIf="formData.deposit_errors && formData.deposit_errors.length > 0">
+                        <ul>
+                            <li *ngFor="let error of formData.deposit_errors" class="text-danger">{{error}}</li>
+                        </ul>
+                    </div>
+                    <form *ngIf="isDeposit" class="form-horizontal" (submit)="deposit($event)">
+                        <div class="form-group">
+                            <label for="ethereum-password" class="col-sm-2 control-label">Ethereum Password</label>
+                            <div class="col-sm-5">
+                                <input type="password" class="form-control" id="ethereum-password"
+                                       placeholder="Ethereum Password"
+                                       [(ngModel)]="formData.eth_password" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount" class="col-sm-2 control-label">Amount (in Ether)</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control" id="amount"
+                                       placeholder="Amount (in Ether)"
+                                       [(ngModel)]="formData.deposit_amount" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-5">
+                                <button type="submit" class="btn btn-primary" [disabled]="formData.isDepositing">Submit
+                                </button>
+                                <button type="reset" class="btn btn-default" [disabled]="formData.isDepositing"
+                                        (click)="isDeposit=false;resetErrors('deposit');resetData('deposit');">Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <button (click)="isWithdraw=true" *ngIf="!isWithdraw" class="btn btn-primary">Withdraw</button>
+                    <button (click)="isDeposit=true" *ngIf="!isDeposit" class="btn btn-primary">Deposit</button>
+                </div>
+                <div *ngIf="!wallet_transactions || wallet_transactions.count() == 0">
+                    <h4>There are no transactions yet in this wallet</h4>
+                </div>
+                <div *ngIf="wallet_transactions && wallet_transactions.count() > 0" class="col-sm-8">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="info">
+                            <th>To/From</th>
+                            <th>Amount</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let transaction of wallet_transactions" [ngClass]="{'success':transaction.to_address==wallet.eth_address,'danger':transaction.from_address==wallet.eth_address}">
+                            <td *ngIf="transaction.from_address==wallet.eth_address">{{transaction.to_address}}</td>
+                            <td *ngIf="transaction.to_address==wallet.eth_address">{{transaction.from_address}}</td>
+                            <td>{{accountsService.formatBalance(transaction.amount)}}</td>
                         </tr>
                         </tbody>
                     </table>
