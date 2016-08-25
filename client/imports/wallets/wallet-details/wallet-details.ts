@@ -34,10 +34,19 @@ export class WalletDetailsComponent implements OnInit{
 	ngOnInit(){
 		this.route.params.subscribe((params) =>{
 			this.walletId = params['walletId'];
-			this.wallet = Wallets.findOne(this.walletId);
-			if(this.wallet){
-				this.wallet_transactions = Transactions.find({$or: [{from_address:this.wallet.eth_address},{to_address:this.wallet.eth_address}]});
-			}
+			let self = this;
+			Tracker.autorun(()=>{
+				self.zone.run(()=>{
+					self.wallet = Wallets.findOne(self.walletId);
+					if(self.wallet){
+						let wallet_ethAccount = EthAccounts.findOne({address: self.wallet.eth_address});
+						if(wallet_ethAccount && self.wallet.balance != wallet_ethAccount.balance){
+							Wallets.update({_id: self.wallet._id}, {$set: {balance: wallet_ethAccount.balance}});
+						}
+						self.wallet_transactions = Transactions.find({$or: [{from_address: self.wallet.eth_address}, {to_address: self.wallet.eth_address}]});
+					}
+				});
+			});
 		});
 		this.navigationService.setActivePage('wallets');
 		this.resetData();
@@ -56,12 +65,6 @@ export class WalletDetailsComponent implements OnInit{
 					if(currentUser && !currentUser.isSurveyCompleted){
 						self.router.navigate(['/survey']);
 					}
-					else if(self.walletId){
-						self.wallet = Wallets.findOne(self.walletId);
-						if(self.wallet){
-							self.wallet_transactions = Transactions.find({$or: [{from_address:self.wallet.eth_address},{to_address:self.wallet.eth_address}]});
-						}
-					}
 				}
 			})
 		});
@@ -71,14 +74,17 @@ export class WalletDetailsComponent implements OnInit{
 		switch(type){
 			case 'contributor':
 				this.formData.contributor_email = "";
+				this.formData.isAddingContributor = false;
 				break;
 			case 'withdraw':
 				this.formData.target_email = "";
 				this.formData.withdraw_amount = 0;
+				this.formData.isWithdrawing = false;
 				break;
 			case 'deposit':
 				this.formData.eth_password = "";
 				this.formData.deposit_amount = 0;
+				this.formData.isDepositing = false;
 				break;
 			case 'all':
 				this.formData.contributor_email = "";
@@ -86,6 +92,9 @@ export class WalletDetailsComponent implements OnInit{
 				this.formData.withdraw_amount = 0;
 				this.formData.eth_password = "";
 				this.formData.deposit_amount = 0;
+				this.formData.isAddingContributor = false;
+				this.formData.isWithdrawing = false;
+				this.formData.isDepositing = false;
 				break;
 		}
 	}
@@ -118,7 +127,7 @@ export class WalletDetailsComponent implements OnInit{
 
 	addContributor(e){
 		e.preventDefault();
-		this.formData.isCreating = true;
+		this.formData.isAddingContributor = true;
 		this.resetErrors();
 
 		if(this.wallet){
@@ -126,12 +135,12 @@ export class WalletDetailsComponent implements OnInit{
 			let contributor = Meteor.users.findOne({"emails.address": contributor_email});
 			if(contributor){
 				if(contributor_email == this.wallet.owner.email){
-					this.formData.errors.push("You cannot add owner of wallet as contributor.");
+					this.formData.contributor_errors.push("You cannot add owner of wallet as contributor.");
 				}
 				else{
 					let checkContributor = Wallets.findOne({"contributors.email": contributor.emails[0].address});
 					if(checkContributor){
-						this.formData.errors.push("Contributor is already added in wallet.");
+						this.formData.contributor_errors.push("Contributor is already added in wallet.");
 					}
 					else{
 						let contributor_account: Account = {
@@ -148,66 +157,139 @@ export class WalletDetailsComponent implements OnInit{
 							survey: contributor.profile.survey
 						};
 
-						Wallets.update({_id: this.walletId},{$addToSet: {contributors: contributor_account}});
+						Wallets.update({_id: this.walletId}, {$addToSet: {contributors: contributor_account}});
 						this.resetData();
-						this.formData.message = "Contributor added successfully.";
+						this.formData.contributor_message = "Contributor added successfully.";
 						this.isAddContributor = false;
 					}
 				}
 			}
 			else{
-				this.formData.errors.push("Contributor not found. Please recheck contributor's email and try again.");
+				this.formData.contributor_errors.push("Contributor not found. Please recheck contributor's email and try again.");
 			}
 		}
 		else{
-			this.formData.errors.push("Wallet not found. Please refresh the page and try again.");
+			this.formData.contributor_errors.push("Wallet not found. Please refresh the page and try again.");
 		}
-		this.formData.isCreating = false;
+		this.formData.isAddingContributor = false;
 	}
 
 	removeContributor(contributor: Account){
-		Wallets.update({_id: this.walletId},{$pull:{contributors: contributor}});
-		this.formData.message = "Contributor (email: "+contributor.email+") removed from wallet successfully.";
+		Wallets.update({_id: this.walletId}, {$pull: {contributors: contributor}});
+		this.formData.contributor_message = "Contributor (email: " + contributor.email + ") removed from wallet successfully.";
 	}
 
 	withdraw(e){
 		e.preventDefault();
 		this.formData.isWithdrawing = true;
+		this.resetErrors('withdraw');
+
+		let targetAccount = Meteor.users.findOne({"emails.address": this.formData.target_email});
+		if(!targetAccount){
+			this.formData.withdraw_errors.push("Target account not found");
+		}
+
 		let amount = this.formData.withdraw_amount;
 		if(_.isEmpty(amount) || amount === '0' || !_.isFinite(amount) || amount < 0){
 			this.formData.withdraw_errors.push("Amount should be greater than 0");
 		}
 		let amountInWei = EthTools.toWei(amount);
-		// if(new BigNumber(amountInWei, 10).gt(new BigNumber(this.wallet.balance, 10))){
-		// 	this.formData.deposit_errors.push("Not enough balance");
-		// }
+		if(new BigNumber(amountInWei, 10).gt(new BigNumber(this.wallet.balance, 10))){
+			this.formData.withdraw_errors.push("Not enough balance");
+		}
 
 		if(this.formData.withdraw_errors.length == 0){
-			let targetAccount = Meteor.users.findOne({"emails.address": this.formData.target_email});
-			Transactions.insert({from_address: this.wallet.eth_address, to_address: targetAccount.profile.eth_address, amount: amountInWei});
-			let new_balance = (new BigNumber(this.wallet.balance).minus(new BigNumber(amountInWei,10))).toString();
-			Wallets.update({_id: this.wallet._id},{$set: {balance: new_balance}});
-			this.formData.withdraw_message = "Balance withdrawn successfully.";
+			let sourceAddress = this.wallet.eth_address;
+			let targetAddress = targetAccount.profile.eth_address;
+			web3.personal.unlockAccount(sourceAddress, this.wallet.eth_password, (err, result)=>{
+				if(err){
+					this.formData.withdraw_errors.push("Some internal error occurred. Please refresh the page and try again.");
+					this.formData.isWithdrawing = false;
+				}
+				else{
+					web3.eth.sendTransaction({
+						from: sourceAddress,
+						to: targetAddress,
+						value: amountInWei
+					}, (err, address) =>{
+						if(err){
+							this.formData.withdraw_errors.push("Some internal error occurred. Please refresh the page and try again.");
+							this.formData.isWithdrawing = false;
+						}
+						else{
+							Transactions.insert({
+								from_address: this.wallet.eth_address,
+								to_address: targetAccount.profile.eth_address,
+								amount: amountInWei
+							});
+
+							this.formData.withdraw_message = "Balance withdrawn successfully.";
+							this.resetData('withdraw');
+							this.isWithdraw = false;
+						}
+					});
+				}
+			});
+
+
+
 		}
-		this.formData.isWithdrawing = false;
+		else{
+			this.formData.isWithdrawing = false;
+		}
+
 	}
 
 	deposit(e){
 		e.preventDefault();
 		this.formData.isDepositing = true;
+		this.resetErrors('deposit');
 		let amount = this.formData.deposit_amount;
 		if(_.isEmpty(amount) || amount === '0' || !_.isFinite(amount) || amount < 0){
 			this.formData.deposit_errors.push("Amount should be greater than 0");
 		}
+		let current_account = this.accountsService.getCurrentUserAccount();
+		let current_ethAccount = EthAccounts.findOne({address: current_account.eth_address});
 		let amountInWei = EthTools.toWei(amount);
-
-		if(this.formData.deposit_errors.length == 0){
-			let current_account = this.accountsService.getCurrentUserAccount();
-			Transactions.insert({from_address: current_account.eth_address, to_address: this.wallet.eth_address, amount: amountInWei});
-			let new_balance = (new BigNumber(this.wallet.balance).add(new BigNumber(amountInWei,10))).toString();
-			Wallets.update({_id: this.wallet._id},{$set: {balance: new_balance}});
-			this.formData.deposit_message = "Balance deposited successfully.";
+		if(new BigNumber(amountInWei, 10).gt(new BigNumber(current_ethAccount.balance, 10))){
+			this.formData.deposit_errors.push("Not enough balance");
 		}
-		this.formData.isDepositing = false;
+		if(this.formData.deposit_errors.length == 0){
+			let targetAddress = this.wallet.eth_address;
+			let sourceAddress = current_account.eth_address;
+			let self = this;
+
+			web3.personal.unlockAccount(sourceAddress, this.formData.eth_password, (err, result)=>{
+				if(err){
+					self.formData.deposit_errors.push("Invalid ethereum password");
+					self.formData.isDepositing = false;
+				}
+				else{
+					web3.eth.sendTransaction({
+						from: sourceAddress,
+						to: targetAddress,
+						value: amountInWei
+					}, (err, address) =>{
+						if(err){
+							self.formData.deposit_errors.push("Some internal error occurred. Please refresh the page and try again.");
+							self.formData.isDepositing = false;
+						}
+						else{
+							Transactions.insert({
+								from_address: current_account.eth_address,
+								to_address: this.wallet.eth_address,
+								amount: amountInWei
+							});
+							this.formData.deposit_message = "Balance deposited successfully.";
+							self.resetData('deposit');
+							self.isDeposit = false;
+						}
+					});
+				}
+			});
+		}
+		else{
+			this.formData.isDepositing = false;
+		}
 	}
 }

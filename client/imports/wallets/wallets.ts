@@ -54,6 +54,7 @@ export class WalletsComponent implements OnInit{
 
 	resetData(){
 		this.formData.wallet_title = "";
+		this.formData.isCreating = false;
 	}
 
 	resetErrors(){
@@ -67,14 +68,33 @@ export class WalletsComponent implements OnInit{
 		this.resetErrors();
 		if(this.currentUser){
 			let wallet_title = this.formData.wallet_title;
-			Wallets.insert({title: wallet_title, balance: 0, owner: this.currentUser, eth_address: wallet_title});
-			this.formData.message = "Wallet created successfully.";
-			this.resetData();
-			this.isCreateWallet = false;
+			let random_str = null;
+			while(random_str == null){
+				random_str = (Math.random()+10).toString(36).substr(2, 10);
+			}
+			let self = this;
+			web3.personal.newAccount(random_str, function(error, result){
+				if(!error){
+					Wallets.insert({
+						title: wallet_title,
+						balance: 0,
+						owner: self.currentUser,
+						eth_address: result,
+						eth_password: random_str
+					});
+					self.formData.message = "Wallet created successfully.";
+					self.resetData();
+					self.isCreateWallet = false;
+				}
+				else{
+					self.formData.errors.push("Unable to create wallet. Please try again!");
+					self.formData.isCreating = false;
+				}
+			});
 		}
 		else{
-			this.formData.errors.push("Please refresh the page and try again.");
+			this.formData.errors.push("Some error occurred. Please refresh the page and try again.");
+			this.formData.isCreating = false;
 		}
-		this.formData.isCreating = false;
 	}
 }
