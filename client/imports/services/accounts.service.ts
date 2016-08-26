@@ -163,11 +163,7 @@ export class AccountsService{
 			user.name = this.currentUser.profile.name;
 			user.email = this.currentUser.emails ? this.currentUser.emails[0].address: "";
 			user.eth_address = this.currentUser.profile.eth_address;
-			user.identicon = blockies.create({
-				seed: user.eth_address,
-				size: 8,
-				scale: 8
-			}).toDataURL();
+			user.identicon = this.createIdenticon(user.eth_address);
 			user.isSurveyCompleted = this.currentUser.profile.isSurveyCompleted;
 			if(user.isSurveyCompleted){
 				user.survey = this.currentUser.profile.survey;
@@ -191,5 +187,13 @@ export class AccountsService{
 	
 	formatBalance(balanceInWei: number): string{
 		return EthTools.formatBalance(balanceInWei, '0,0.0[00] unit');
+	}
+
+	createIdenticon(seed, size = 8, scale = 8){
+		return blockies.create({
+			seed: seed,
+			size: size,
+			scale: scale
+		}).toDataURL();
 	}
 }
