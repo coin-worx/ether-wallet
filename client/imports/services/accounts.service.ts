@@ -184,8 +184,8 @@ export class AccountsService{
 	getErrors(){
 		return this.errors;
 	}
-	
-	formatBalance(balanceInWei: number): string{
+
+	formatBalance(balanceInWei: string): string{
 		return EthTools.formatBalance(balanceInWei, '0,0.0[00] unit');
 	}
 
@@ -195,5 +195,23 @@ export class AccountsService{
 			size: size,
 			scale: scale
 		}).toDataURL();
+	}
+
+	findUserAccount(value: string, key: string = '_id'): Account{
+		let user = Meteor.users.findOne({[key]: value});
+		if(user){
+			return {
+				id: user._id,
+				name: user.profile.name,
+				email: user.emails ? user.emails[0].address: "",
+				eth_address: user.profile.eth_address,
+				identicon: this.createIdenticon(user.profile.eth_address),
+				isSurveyCompleted: user.profile.isSurveyCompleted,
+				survey: user.profile.survey
+			};
+		}
+		else{
+			return null;
+		}
 	}
 }

@@ -7,11 +7,12 @@ import {AccountsService} from "../../services/accounts.service";
 import {NavigationService} from "../../services/navigation.service";
 import {Wallets} from "../../../../collections/wallets.collection";
 import {Transactions} from "../../../../collections/transactions.collection";
+import {DisplayTransactionComponent} from "../directives/display-transaction";
 
 @Component({
 	selector: 'wallet-details',
 	template,
-	directives: [ROUTER_DIRECTIVES]
+	directives: [ROUTER_DIRECTIVES, DisplayTransactionComponent]
 })
 export class WalletDetailsComponent implements OnInit{
 	private autorunComputation: Tracker.Computation;

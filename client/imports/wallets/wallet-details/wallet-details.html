@@ -42,10 +42,12 @@
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-5">
-                                <button type="submit" class="btn btn-primary" [disabled]="formData.isAddingContributor">Submit
+                                <button type="submit" class="btn btn-primary" [disabled]="formData.isAddingContributor">
+                                    Submit
                                 </button>
                                 <button type="reset" class="btn btn-default" [disabled]="formData.isAddingContributor"
-                                        (click)="isAddContributor=false;resetErrors('contributor');resetData('contributor');">Cancel
+                                        (click)="isAddContributor=false;resetErrors('contributor');resetData('contributor');">
+                                    Cancel
                                 </button>
                             </div>
                         </div>
@@ -163,11 +165,9 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr *ngFor="let transaction of wallet_transactions" [ngClass]="{'success':transaction.to_address==wallet.eth_address,'danger':transaction.from_address==wallet.eth_address}">
-                            <td *ngIf="transaction.from_address==wallet.eth_address">{{transaction.to_address}}</td>
-                            <td *ngIf="transaction.to_address==wallet.eth_address">{{transaction.from_address}}</td>
-                            <td>{{accountsService.formatBalance(transaction.amount)}}</td>
-                        </tr>
+                        <tr display-transaction *ngFor="let transaction of wallet_transactions"
+                            [transaction]="transaction" [wallet]="wallet"
+                            [ngClass]="{'success':transaction.to_address==wallet.eth_address,'danger':transaction.from_address==wallet.eth_address}"></tr>
                         </tbody>
                     </table>
                 </div>
