@@ -37,6 +37,7 @@
                     <th>Owner</th>
                     <th>Balance</th>
                     <th>Contributors</th>
+                    <th>Created at</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -51,8 +52,11 @@
                         </span>
                     </td>
                     <td>
+                        {{wallet.created_at.toLocaleString()}}
+                    </td>
+                    <td>
                         <a [routerLink]="['/wallet', wallet._id]"><span class="glyphicon glyphicon-eye-open"
-                                                                          aria-hidden="true"></span></a>
+                                                                          aria-hidden="true"></span>&nbsp;Details</a>
                     </td>
                 </tr>
                 </tbody>

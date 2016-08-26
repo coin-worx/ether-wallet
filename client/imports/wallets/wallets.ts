@@ -6,6 +6,7 @@ import template from './wallets.html';
 import {AccountsService} from "../services/accounts.service";
 import {NavigationService} from "../services/navigation.service";
 import {Wallets} from "../../../collections/wallets.collection";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
 	selector: 'wallets-list',
@@ -80,7 +81,8 @@ export class WalletsComponent implements OnInit{
 						balance: 0,
 						owner: self.currentUser,
 						eth_address: result,
-						eth_password: random_str
+						eth_password: random_str,
+						created_at: new Date()
 					});
 					self.formData.message = "Wallet created successfully.";
 					self.resetData();

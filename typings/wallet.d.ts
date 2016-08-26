@@ -6,4 +6,5 @@ interface Wallet{
 	owner: Account;
 	balance: number;
 	contributors: Array<Account>;
+	created_at: Date;
 }

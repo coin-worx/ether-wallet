@@ -221,7 +221,8 @@ export class WalletDetailsComponent implements OnInit{
 							Transactions.insert({
 								from_address: this.wallet.eth_address,
 								to_address: targetAccount.profile.eth_address,
-								amount: amountInWei
+								amount: amountInWei,
+								created_at: new Date()
 							});
 
 							this.formData.withdraw_message = "Balance withdrawn successfully.";
@@ -279,7 +280,8 @@ export class WalletDetailsComponent implements OnInit{
 							Transactions.insert({
 								from_address: current_account.eth_address,
 								to_address: this.wallet.eth_address,
-								amount: amountInWei
+								amount: amountInWei,
+								created_at: new Date()
 							});
 							this.formData.deposit_message = "Balance deposited successfully.";
 							self.resetData('deposit');
