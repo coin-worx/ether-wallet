@@ -6,4 +6,5 @@
     </div>
 </td>
 <td><h5>{{accountsService.formatBalance(transaction.amount)}}</h5></td>
+<td><h5 *ngIf="transaction.created_by">{{accountsService.findUserAccount(transaction.created_by,'_id').name}}</h5></td>
 <td><h5>{{transaction.created_at.toLocaleString()}}</h5></td>
