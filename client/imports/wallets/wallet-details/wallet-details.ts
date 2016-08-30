@@ -268,13 +268,15 @@ export class WalletDetailsComponent implements OnInit{
 			}
 
 			let amount = this.formData.withdraw_amount;
-			//TODO: check in amount is a number (_.isNumber)
+			let amountInWei = null;
 			if(_.isEmpty(amount) || amount === '0' || !_.isFinite(amount) || amount < 0){
 				this.formData.withdraw_errors.push("Amount should be greater than 0");
 			}
-			let amountInWei = EthTools.toWei(amount);
-			if(new BigNumber(amountInWei, 10).gt(new BigNumber(this.wallet.balance, 10))){
-				this.formData.withdraw_errors.push("Not enough balance");
+			else{
+				amountInWei = EthTools.toWei(amount);
+				if(new BigNumber(amountInWei, 10).gt(new BigNumber(this.wallet.balance, 10))){
+					this.formData.withdraw_errors.push("Not enough balance");
+				}
 			}
 
 			if(this.formData.withdraw_errors.length == 0){
@@ -330,14 +332,18 @@ export class WalletDetailsComponent implements OnInit{
 		this.resetErrors('deposit');
 		if(this.checkPermission("admin") || this.checkPermission("int_trans")){
 			let amount = this.formData.deposit_amount;
+			let amountInWei = null;
 			if(_.isEmpty(amount) || amount === '0' || !_.isFinite(amount) || amount < 0){
 				this.formData.deposit_errors.push("Amount should be greater than 0");
 			}
-			let current_ethAccount = EthAccounts.findOne({address: this.currentUser.eth_address});
-			let amountInWei = EthTools.toWei(amount);
-			if(new BigNumber(amountInWei, 10).gt(new BigNumber(current_ethAccount.balance, 10))){
-				this.formData.deposit_errors.push("Not enough balance");
+			else{
+				let current_ethAccount = EthAccounts.findOne({address: this.currentUser.eth_address});
+				amountInWei = EthTools.toWei(amount);
+				if(new BigNumber(amountInWei, 10).gt(new BigNumber(current_ethAccount.balance, 10))){
+					this.formData.deposit_errors.push("Not enough balance");
+				}
 			}
+
 			if(this.formData.deposit_errors.length == 0){
 				let targetAddress = this.wallet.eth_address;
 				let sourceAddress = this.currentUser.eth_address;

@@ -89,13 +89,17 @@ export class TransferFundsComponent implements OnInit{
 			this.errors.push("Target account not found");
 		}
 		let amount = this.formData.amount;
+		let amountInWei = null;
 		if(_.isEmpty(amount) || amount === '0' || !_.isFinite(amount) || amount < 0){
 			this.errors.push("Amount should be greater than 0");
 		}
-		let amountInWei = EthTools.toWei(amount);
-		if(new BigNumber(amountInWei, 10).gt(new BigNumber(this.currentEthAccount.balance, 10))){
-			this.errors.push("Not enough balance");
+		else{
+			amountInWei = EthTools.toWei(amount);
+			if(new BigNumber(amountInWei, 10).gt(new BigNumber(this.currentEthAccount.balance, 10))){
+				this.errors.push("Not enough balance");
+			}
 		}
+
 
 		if(this.errors.length <= 0){
 			let targetAddress = targetAccount.profile.eth_address;
