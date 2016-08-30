@@ -390,4 +390,12 @@ export class WalletDetailsComponent implements OnInit{
 		}
 
 	}
+
+	deleteWallet(){
+		if(this.checkPermission("admin")){
+			//TODO: transfer wallet funds into owner's account
+			Wallets.remove({_id: this.walletId});
+			this.router.navigate(['/wallets']);
+		}
+	}
 }
