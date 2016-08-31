@@ -132,6 +132,9 @@ export class WalletDetailsComponent implements OnInit{
 				this.formData.deposit_message = "";
 				this.formData.deposit_errors = [];
 				break;
+			case 'delete-wallet':
+				this.formData.wallet_delete_errors = [];
+				break;
 			case 'all':
 				this.formData.contributor_message = "";
 				this.formData.contributor_errors = [];
@@ -139,6 +142,7 @@ export class WalletDetailsComponent implements OnInit{
 				this.formData.withdraw_errors = [];
 				this.formData.deposit_message = "";
 				this.formData.deposit_errors = [];
+				this.formData.wallet_delete_errors = [];
 				break;
 		}
 
@@ -162,7 +166,6 @@ export class WalletDetailsComponent implements OnInit{
 		e.preventDefault();
 		this.formData.isAddingContributor = true;
 		this.resetErrors();
-
 		if(this.wallet){
 			if(this.checkPermission("admin")){
 				if(this.formData.isUpdatingContributor && this.formData.contributor_account){
@@ -392,10 +395,54 @@ export class WalletDetailsComponent implements OnInit{
 	}
 
 	deleteWallet(){
+		this.formData.isDeletingWallet = true;
+		this.resetErrors('wallet-delete');
 		if(this.checkPermission("admin")){
-			//TODO: transfer wallet funds into owner's account
-			Wallets.remove({_id: this.walletId});
-			this.router.navigate(['/wallets']);
+			web3.eth.getGasPrice((error1, gasPrice)=>{
+				if(error1){
+					this.formData.wallet_delete_errors.push("Some internal error occured. Please refresh the page and try again.");
+				}
+				else{
+					web3.eth.estimateGas({
+						from: this.wallet.eth_address,
+						to: this.currentUser.eth_address,
+						value: this.wallet.balance,
+					}, (error2, estimatedGas)=>{
+						if(error2){
+							this.formData.wallet_delete_errors.push("Some internal error occured. Please refresh the page and try again.");
+						}
+						else{
+							estimatedGas = estimatedGas + 100000;
+							let transactionCost = gasPrice.times(estimatedGas);
+							let amount = new BigNumber(this.wallet.balance,10).minus(transactionCost);
+							web3.personal.unlockAccount(this.wallet.eth_address, this.wallet.eth_password, (error3, result3)=>{
+								if(error3){
+									this.formData.wallet_delete_errors.push("Some internal error occured. Please refresh the page and try again.");
+								}
+								else{
+									web3.eth.sendTransaction({
+										from: this.wallet.eth_address,
+										to: this.currentUser.eth_address,
+										value: amount
+									},(error4, result4)=>{
+										if(error4){
+											this.formData.wallet_delete_errors.push("Some internal error occured. Please refresh the page and try again.");
+										}
+										else{
+											Wallets.remove({_id: this.walletId});
+											this.router.navigate(['/wallets']);
+										}
+									});
+								}
+							});
+						}
+					});
+
+				}
+
+
+			});
+
 		}
 	}
 }

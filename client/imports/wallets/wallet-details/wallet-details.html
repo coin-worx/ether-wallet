@@ -31,8 +31,13 @@
                     <h3 class="panel-title">Delete Wallet</h3>
                 </div>
                 <div class="panel-body">
+                    <div *ngIf="formData.wallet_delete_errors && formData.wallet_delete_errors.length > 0">
+                        <ul>
+                            <li *ngFor="let error of formData.wallet_delete_errors" class="text-danger">{{error}}</li>
+                        </ul>
+                    </div>
                     <p><strong>Note: </strong>Wallet funds will be transferred into owner's account.</p>
-                    <button class="btn btn-danger" (click)="deleteWallet()">
+                    <button class="btn btn-danger" (click)="deleteWallet()" [disabled]="formData.isDeletingWallet">
                         Delete Wallet
                     </button>
                 </div>
