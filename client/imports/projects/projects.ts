@@ -37,9 +37,6 @@ export class ProjectsComponent implements OnInit{
 				}
 				else{
 					let currentUser = self.accountsService.getCurrentUserAccount();
-					if(currentUser && !currentUser.isSurveyCompleted){
-						self.router.navigate(['/survey']);
-					}
 				}
 			})
 		});

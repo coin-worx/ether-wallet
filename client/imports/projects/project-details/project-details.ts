@@ -42,10 +42,7 @@ export class ProjectDetailsComponent implements OnInit{
 				}
 				else{
 					let currentUser = self.accountsService.getCurrentUserAccount();
-					if(currentUser && !currentUser.isSurveyCompleted){
-						self.router.navigate(['/survey']);
-					}
-					else if(self.projectId){
+					if(self.projectId){
 						self.project = Projects.findOne(self.projectId);
 					}
 				}

@@ -39,18 +39,13 @@ export class HomeComponent implements OnInit{
 				if(self.accountsService.isLoggedIn()){
 					self.currentUser = self.accountsService.getCurrentUserAccount();
 					if(self.currentUser){
-						if(!self.currentUser.isSurveyCompleted){
-							self.router.navigate(['/survey']);
-						}
-						else{
-							self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
-							if(self.currentEthAccount){
-								self.currentEthAccount.balance_unit = self.accountsService.formatBalance(self.currentEthAccount.balance);
-								self.isBalanceUpdated = false;
-								setTimeout(()=>{
-									self.isBalanceUpdated = true;
-								}, 100);
-							}
+						self.currentEthAccount = EthAccounts.findOne({address: self.currentUser.eth_address});
+						if(self.currentEthAccount){
+							self.currentEthAccount.balance_unit = self.accountsService.formatBalance(self.currentEthAccount.balance);
+							self.isBalanceUpdated = false;
+							setTimeout(()=>{
+								self.isBalanceUpdated = true;
+							}, 100);
 						}
 					}
 				}
