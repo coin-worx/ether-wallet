@@ -42,10 +42,7 @@ export class WalletsComponent implements OnInit{
 				}
 				else{
 					self.currentUser = self.accountsService.getCurrentUserAccount();
-					if(self.currentUser && !self.currentUser.isSurveyCompleted){
-						self.router.navigate(['/survey']);
-					}
-					else if(self.currentUser){
+					if(self.currentUser){
 						self.wallets = Wallets.find({$or: [{'owner.email': self.currentUser.email}, {"contributors.email": self.currentUser.email}]});
 					}
 				}

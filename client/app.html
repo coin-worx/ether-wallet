@@ -14,11 +14,9 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li [ngClass]="{'active':activePage=='home'}"><a [routerLink]="['/']">Home</a></li>
-                <li [ngClass]="{'active':activePage=='projects'}"><a [routerLink]="['/projects']">Projects</a></li>
                 <li [ngClass]="{'active':activePage=='transfer-funds'}"><a [routerLink]="['/transfer-funds']">Transfer
                     Funds</a></li>
                 <li [ngClass]="{'active':activePage=='wallets'}"><a [routerLink]="['/wallets']">Wallets</a></li>
-                <!--<li [ngClass]="{'active':activePage=='survey'}"><a [routerLink]="['/survey']">Take a Survey</a></li>-->
             </ul>
             <ul class="nav navbar-nav pull-right">
                 <li><a href="javascript:void(0)" style="padding-top:11px;padding-bottom:5px;">

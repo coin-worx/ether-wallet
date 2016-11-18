@@ -164,10 +164,6 @@ export class AccountsService{
 			user.email = this.currentUser.emails ? this.currentUser.emails[0].address: "";
 			user.eth_address = this.currentUser.profile.eth_address;
 			user.identicon = this.createIdenticon(user.eth_address);
-			user.isSurveyCompleted = this.currentUser.profile.isSurveyCompleted;
-			if(user.isSurveyCompleted){
-				user.survey = this.currentUser.profile.survey;
-			}
 		}
 		return user;
 	}
@@ -205,9 +201,7 @@ export class AccountsService{
 				name: user.profile.name,
 				email: user.emails ? user.emails[0].address: "",
 				eth_address: user.profile.eth_address,
-				identicon: this.createIdenticon(user.profile.eth_address),
-				isSurveyCompleted: user.profile.isSurveyCompleted,
-				survey: user.profile.survey
+				identicon: this.createIdenticon(user.profile.eth_address)
 			};
 		}
 		else{

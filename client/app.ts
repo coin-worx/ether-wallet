@@ -10,15 +10,12 @@ import template from './app.html';
 //noinspection TypeScriptCheckImport
 import style from './style.css';
 
-import {ProjectsComponent} from "./imports/projects/projects";
-import {ProjectDetailsComponent} from "./imports/projects/project-details/project-details";
 import {AccountsService} from "./imports/services/accounts.service";
 import {appInjector} from "./lib/app-injector";
 import {ROUTER_PROVIDERS} from "@angular/router-deprecated";
 import {LoginComponent} from "./imports/login/login";
 import {NavigationService} from "./imports/services/navigation.service";
 import {TransferFundsComponent} from "./imports/transfer-funds/transfer-funds";
-import {SurveyComponent} from "./imports/survey/survey";
 import {WalletsComponent} from "./imports/wallets/wallets";
 import {WalletDetailsComponent} from "./imports/wallets/wallet-details/wallet-details";
 
@@ -63,10 +60,7 @@ class PoC implements OnInit{
 const routes: RouterConfig = [
 	{path: '', component: HomeComponent},
 	{path: 'login', component: LoginComponent},
-	{path: 'projects', component: ProjectsComponent},
-	{path: 'project/:projectId', component: ProjectDetailsComponent},
 	{path: 'transfer-funds', component: TransferFundsComponent},
-	{path: 'survey', component: SurveyComponent},
 	{path: 'wallets', component: WalletsComponent},
 	{path: 'wallet/:walletId', component: WalletDetailsComponent},
 ];

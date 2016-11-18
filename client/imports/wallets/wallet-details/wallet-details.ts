@@ -77,9 +77,6 @@ export class WalletDetailsComponent implements OnInit{
 				}
 				else{
 					// self.currentUser = self.accountsService.getCurrentUserAccount();
-					// if(self.currentUser && !self.currentUser.isSurveyCompleted){
-					// 	self.router.navigate(['/survey']);
-					// }
 				}
 			})
 		});
@@ -199,9 +196,7 @@ export class WalletDetailsComponent implements OnInit{
 										seed: contributor.eth_address,
 										size: 8,
 										scale: 8
-									}).toDataURL(),
-									isSurveyCompleted: contributor.profile.isSurveyCompleted,
-									survey: contributor.profile.survey
+									}).toDataURL()
 								};
 
 								if(!this.wallet.permissions){
