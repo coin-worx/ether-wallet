@@ -7,8 +7,8 @@ Run this application by following these steps:
 0. **Clone from GitHub**
 
     ```sh
-    $ git clone https://github.com/Waseem826/ethereum-poc.git
-    $ cd ethereum-poc
+    $ git clone https://github.com/coin-worx/ether-wallet.git
+    $ cd ether-wallet
     ```
 
 0. **Resolve dependencies**
