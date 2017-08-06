@@ -37,8 +37,8 @@ interface Wallet{
 	eth_address: string;
 	eth_password: string;
 	owner: Account;
-	balance: string;
-	contributors: Array<Account>;
-	permissions: any;
+	balance: string | number;
+	contributors?: Array<Account>;
+	permissions?: any;
 	created_at: Date;
 }

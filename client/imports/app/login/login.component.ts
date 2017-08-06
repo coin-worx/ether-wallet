@@ -30,13 +30,10 @@
  * limitations under the License.
  *****************************************************************************/
 
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountsService } from '../core/services/accounts.service';
-import { NavigationService } from '../core/services/navigation.service';
-//noinspection TypeScriptCheckImport
 import style from './login.component.css';
-//noinspection TypeScriptCheckImport
 import template from './login.component.html';
 
 @Component({
@@ -50,29 +47,17 @@ export class LoginComponent implements OnInit {
   private credentials: SignupCredentials;
   private isLoggedIn: boolean = false;
 
-  constructor(private zone: NgZone,
-              private accountsService: AccountsService,
-              private navigationService: NavigationService,
+  constructor(private accountsService: AccountsService,
               private router: Router) {
-    this._initAutorun();
     this.showLogin = true;
     this._resetCredentialsFields();
   }
 
   ngOnInit() {
-
-  }
-
-  _initAutorun(): void {
-    let self = this;
-    this.autorunComputation = Tracker.autorun(() => {
-      this.zone.run(() => {
-        self.isLoggedIn = self.accountsService.isLoggedIn();
-        if (self.isLoggedIn && self.navigationService.getCurrentUrl() == '/login') {
-          self.router.navigate(['/']);
-        }
-      });
-    });
+    this.isLoggedIn = this.accountsService.isLoggedIn();
+    if (this.isLoggedIn) {
+      this.router.navigate(['/']);
+    }
   }
 
   _resetCredentialsFields() {
