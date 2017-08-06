@@ -30,15 +30,15 @@
 * See the License for the specific language governing permissions and 
 * limitations under the License. 
 *****************************************************************************
--->	
+-->
 
 
 <td>
-    <div *ngIf="userAccount">
-        <img class="dapp-identicon dapp-small pull-left"
-             src="{{userAccount.identicon}}"/>
-        <h5 class="col-offset-sm-1 col-sm-9">{{userAccount.name}} ({{userAccount.email}})</h5>
-    </div>
+  <div *ngIf="userAccount">
+    <img class="dapp-identicon dapp-small pull-left"
+         src="{{userAccount.identicon}}"/>
+    <h5 class="col-offset-sm-1 col-sm-9">{{userAccount.name}} ({{userAccount.email}})</h5>
+  </div>
 </td>
 <td><h5>{{accountsService.formatBalance(transaction.amount)}}</h5></td>
 <td><h5 *ngIf="transaction.created_by">{{accountsService.findUserAccount(transaction.created_by,'_id').name}}</h5></td>
