@@ -16,17 +16,23 @@ body {
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 60px;
+    padding-top: 20px;
     background-color: #101010;
 }
 
 /* flash animation
 ------------------------------------------------*/
 
-@keyframes flashEffect{
-    from{background-color:#FC3;}
-    to{ background-color:white;}
+@keyframes flashEffect {
+    from {
+        background-color: #FC3;
+    }
+    to {
+        background-color: white;
+    }
 }
-.flash{
-    animation-name:flashEffect;
-    animation-duration:2s;
+
+.flash {
+    animation-name: flashEffect;
+    animation-duration: 2s;
 }

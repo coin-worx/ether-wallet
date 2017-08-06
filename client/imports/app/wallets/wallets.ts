@@ -38,7 +38,7 @@ import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import template from './wallets.html';
 import {AccountsService} from "../services/accounts.service";
 import {NavigationService} from "../services/navigation.service";
-import {Wallets} from "../../../collections/wallets.collection";
+import {Wallets} from "../../../../collections/wallets.collection";
 import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({

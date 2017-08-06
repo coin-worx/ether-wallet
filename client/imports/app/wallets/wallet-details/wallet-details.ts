@@ -38,8 +38,8 @@ import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
 import template from './wallet-details.html';
 import {AccountsService} from "../../services/accounts.service";
 import {NavigationService} from "../../services/navigation.service";
-import {Wallets} from "../../../../collections/wallets.collection";
-import {Transactions} from "../../../../collections/transactions.collection";
+import {Wallets} from "../../../../../collections/wallets.collection";
+import {Transactions} from "../../../../../collections/transactions.collection";
 import {DisplayTransactionComponent} from "../directives/display-transaction";
 
 @Component({
