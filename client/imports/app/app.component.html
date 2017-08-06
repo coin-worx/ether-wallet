@@ -31,7 +31,7 @@
             </div>
           </form>
         </a></li>
-        <li><a href="javascript:void(0)">Hello {{currentUser?.profile?.name}}!</a></li>
+        <li><a href="javascript:void(0)">Hello {{currentUser ? currentUser.name : ''}}!</a></li>
         <li><a href="javascript:void(0)" (click)="logout()"><span
                 class="text-warning">Logout</span></a></li>
       </ul>

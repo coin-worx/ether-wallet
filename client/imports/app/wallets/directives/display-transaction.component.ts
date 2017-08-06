@@ -34,8 +34,8 @@
 import {Component, OnInit, Input} from '@angular/core';
 
 //noinspection TypeScriptCheckImport
-import template from './display-transaction.html';
-import {AccountsService} from "../../services/accounts.service";
+import template from './display-transaction.component.html';
+import {AccountsService} from "../../core/services/accounts.service";
 
 @Component({
 	selector: '[display-transaction]',

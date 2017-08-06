@@ -35,12 +35,12 @@ import {Component, NgZone, OnInit} from '@angular/core';
 import {ROUTER_DIRECTIVES, ActivatedRoute, Router} from '@angular/router';
 
 //noinspection TypeScriptCheckImport
-import template from './wallet-details.html';
-import {AccountsService} from "../../services/accounts.service";
-import {NavigationService} from "../../services/navigation.service";
+import template from './wallet-details.component.html';
+import {AccountsService} from "../../core/services/accounts.service";
+import {NavigationService} from "../../core/services/navigation.service";
 import {Wallets} from "../../../../../collections/wallets.collection";
 import {Transactions} from "../../../../../collections/transactions.collection";
-import {DisplayTransactionComponent} from "../directives/display-transaction";
+import {DisplayTransactionComponent} from "../directives/display-transaction.component";
 
 @Component({
 	selector: 'wallet-details',

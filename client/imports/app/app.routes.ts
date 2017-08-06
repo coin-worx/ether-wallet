@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
-import { HomeComponent } from './home/home';
-import { LoginComponent } from './login/login';
-import { TransferFundsComponent } from './transfer-funds/transfer-funds';
-import { WalletDetailsComponent } from './wallets/wallet-details/wallet-details';
-import { WalletsComponent } from './wallets/wallets';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
+import { TransferFundsComponent } from './transfer-funds/transfer-funds.component';
+import { WalletDetailsComponent } from './wallets/wallet-details/wallet-details.component';
+import { WalletsComponent } from './wallets/wallets.component';
 
 export const appRoutes: Route[] = [
   {path: '', component: HomeComponent},
