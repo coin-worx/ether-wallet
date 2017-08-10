@@ -1,0 +1,288 @@
+<!--
+***************************************************************************** 
+* Copyright 2016 Aurora Solutions 
+* 
+*    http://www.aurorasolutions.io 
+* 
+* Aurora Solutions is an innovative services and product company at 
+* the forefront of the software industry, with processes and practices 
+* involving Domain Driven Design(DDD), Agile methodologies to build 
+* scalable, secure, reliable and high performance products.
+* 
+* Ether Wallet is a Cryptocurrency Wallet Dapp for Ethereum.
+* Developed with MeteorJS, Angular2, MongoDB and JQuery on the Ethereum
+* platform, the Dapp can be used to transfer funds, manage shared wallets
+* and start crowdfunding campaigns using the blockchain functionality of
+* Ethereum.
+* Key features: Account and permission management, Wallet creation,
+* Withdrawals and Deposits in the Wallet, funds transfer,
+* view Crypto and Fiat Currency conversion rates, etc.
+* 
+* Licensed under the Apache License, Version 2.0 (the "License"); 
+* you may not use this file except in compliance with the License. 
+* You may obtain a copy of the License at 
+* 
+*    http://www.apache.org/licenses/LICENSE-2.0 
+* 
+* Unless required by applicable law or agreed to in writing, software 
+* distributed under the License is distributed on an "AS IS" BASIS, 
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+* See the License for the specific language governing permissions and 
+* limitations under the License. 
+*****************************************************************************
+-->
+
+
+<div *ngIf="wallet">
+  <div class="col-sm-12">
+    <div class="col-sm-7">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Basic Information</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table">
+            <tbody>
+            <tr>
+              <td><strong>Name</strong></td>
+              <td>{{wallet.title}}</td>
+            </tr>
+            <tr>
+              <td><strong>Owner</strong></td>
+              <td>{{wallet.owner.name}}</td>
+            </tr>
+            <tr>
+              <td><strong>Balance</strong></td>
+              <td>{{accountsService.formatBalance(wallet.balance)}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="checkPermission('admin')" class="col-sm-offset-1 col-sm-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Delete Wallet</h3>
+        </div>
+        <div class="panel-body">
+          <div *ngIf="formData.wallet_delete_errors && formData.wallet_delete_errors.length > 0">
+            <ul>
+              <li *ngFor="let error of formData.wallet_delete_errors" class="text-danger">{{error}}</li>
+            </ul>
+          </div>
+          <p><strong>Note: </strong>Wallet funds will be transferred into owner's account.</p>
+          <button class="btn btn-danger" (click)="deleteWallet()" [disabled]="formData.isDeletingWallet">
+            Delete Wallet
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Contributors</h3>
+      </div>
+      <div class="panel-body">
+        <div>
+          <div *ngIf="formData.contributor_message && formData.contributor_message.length > 0">
+            <h4 class="text-success">{{formData.contributor_message}}</h4>
+          </div>
+          <div *ngIf="formData.contributor_errors && formData.contributor_errors.length > 0">
+            <ul>
+              <li *ngFor="let error of formData.contributor_errors" class="text-danger">{{error}}</li>
+            </ul>
+          </div>
+          <form *ngIf="isAddContributor && checkPermission('admin')" class="form-horizontal"
+                (submit)="addContributor($event)">
+            <div class="form-group">
+              <label for="contributor-email" class="col-sm-2 control-label">Contributor's Email</label>
+              <div class="col-sm-5">
+                <input type="email" class="form-control" id="contributor-email"
+                       placeholder="Contributor's Email address"
+                       [(ngModel)]="formData.contributor_email"
+                       [readonly]="formData.isUpdatingContributor"
+                       required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="contributor-permission" class="col-sm-2 control-label">Permissions</label>
+              <div class="col-sm-5">
+                <select class="form-control" id="contributor-permission"
+                        [(ngModel)]="formData.contributor_permission">
+                  <option *ngFor="let permission of wallet_permissions"
+                          [value]="permission.value"
+                  >{{permission.label}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-5">
+                <button type="submit" class="btn btn-primary" [disabled]="formData.isAddingContributor">
+                  Submit
+                </button>
+                <button type="reset" class="btn btn-default" [disabled]="formData.isAddingContributor"
+                        (click)="isAddContributor=false;resetErrors('contributor');resetData('contributor');">
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+          <button (click)="isAddContributor=true" *ngIf="!isAddContributor && checkPermission('admin')"
+                  class="btn btn-primary">Add
+            Contributor
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!wallet.contributors || wallet.contributors.length == 0">
+        <div class="panel-body">
+          <h4>There are no contributors in this wallet</h4>
+        </div>
+      </div>
+      <div *ngIf="wallet.contributors && wallet.contributors.length > 0">
+        <table class="table table-hover">
+          <thead>
+          <tr class="info">
+            <th>Name</th>
+            <th>Email</th>
+            <th *ngIf="checkPermission('admin')">Permission</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let contributor of wallet.contributors">
+            <td>{{contributor.name}}</td>
+            <td>{{contributor.email}}</td>
+            <td *ngIf="checkPermission('admin')">{{getPermissionLabel(contributor)}}</td>
+            <td *ngIf="checkPermission('admin')">
+              <a href="javascript:void(0);" (click)="editContributor(contributor)"
+                 title="Edit"><span
+                      class="glyphicon glyphicon-pencil"
+                      aria-hidden="true"></span></a> |
+              <a href="javascript:void(0);" (click)="removeContributor(contributor)"
+                 title="Remove Contributor"><span
+                      class="glyphicon glyphicon-remove"
+                      aria-hidden="true"></span></a>
+
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Transactions</h3>
+      </div>
+      <div class="panel-body">
+        <div>
+          <div *ngIf="formData.withdraw_message && formData.withdraw_message.length > 0">
+            <h4 class="text-success">{{formData.withdraw_message}}</h4>
+          </div>
+          <div *ngIf="formData.withdraw_errors && formData.withdraw_errors.length > 0">
+            <ul>
+              <li *ngFor="let error of formData.withdraw_errors" class="text-danger">{{error}}</li>
+            </ul>
+          </div>
+          <form *ngIf="isWithdraw  && (checkPermission('admin') || checkPermission('int_trans'))"
+                class="form-horizontal" (submit)="withdraw($event)">
+            <div class="form-group">
+              <label for="target-email" class="col-sm-2 control-label">Target Email</label>
+              <div class="col-sm-5">
+                <input type="email" class="form-control" id="target-email"
+                       placeholder="Target Email address"
+                       [(ngModel)]="formData.target_email" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="amount" class="col-sm-2 control-label">Amount (in Ether)</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" id="amount"
+                       placeholder="Amount (in Ether)"
+                       [(ngModel)]="formData.withdraw_amount" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-5">
+                <button type="submit" class="btn btn-primary" [disabled]="formData.isWithdrawing">Submit
+                </button>
+                <button type="reset" class="btn btn-default" [disabled]="formData.isWithdrawing"
+                        (click)="isWithdraw=false;resetErrors('withdraw');resetData('withdraw');">Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+          <div *ngIf="formData.deposit_message && formData.deposit_message.length > 0">
+            <h4 class="text-success">{{formData.deposit_message}}</h4>
+          </div>
+          <div *ngIf="formData.deposit_errors && formData.deposit_errors.length > 0">
+            <ul>
+              <li *ngFor="let error of formData.deposit_errors" class="text-danger">{{error}}</li>
+            </ul>
+          </div>
+          <form *ngIf="isDeposit  && (checkPermission('admin') || checkPermission('int_trans'))"
+                class="form-horizontal" (submit)="deposit($event)">
+            <div class="form-group">
+              <label for="ethereum-password" class="col-sm-2 control-label">Ethereum Password</label>
+              <div class="col-sm-5">
+                <input type="password" class="form-control" id="ethereum-password"
+                       placeholder="Ethereum Password"
+                       [(ngModel)]="formData.eth_password" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="amount" class="col-sm-2 control-label">Amount (in Ether)</label>
+              <div class="col-sm-5">
+                <input type="text" class="form-control" id="amount"
+                       placeholder="Amount (in Ether)"
+                       [(ngModel)]="formData.deposit_amount" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-5">
+                <button type="submit" class="btn btn-primary" [disabled]="formData.isDepositing">Submit
+                </button>
+                <button type="reset" class="btn btn-default" [disabled]="formData.isDepositing"
+                        (click)="isDeposit=false;resetErrors('deposit');resetData('deposit');">Cancel
+                </button>
+              </div>
+            </div>
+          </form>
+          <button (click)="isWithdraw=true"
+                  *ngIf="!isWithdraw  && (checkPermission('admin') || checkPermission('int_trans'))"
+                  class="btn btn-warning">Withdraw Money
+          </button>
+          <button (click)="isDeposit=true"
+                  *ngIf="!isDeposit  && (checkPermission('admin') || checkPermission('int_trans'))"
+                  class="btn btn-success">Deposit Money
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!wallet_transactions || wallet_transactions.count() == 0">
+        <div class="panel-body">
+          <h4>There are no transactions yet in this wallet</h4>
+        </div>
+      </div>
+      <div *ngIf="wallet_transactions && wallet_transactions.count() > 0">
+        <table class="table table-hover table-bordered">
+          <thead>
+          <tr class="info">
+            <th>To/From</th>
+            <th>Amount</th>
+            <th>Created by</th>
+            <th>Created at</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr display-transaction *ngFor="let transaction of wallet_transactions"
+              [transaction]="transaction" [wallet]="wallet"
+              [ngClass]="{'success':transaction.to_address==wallet.eth_address,'warning':transaction.from_address==wallet.eth_address}"></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
