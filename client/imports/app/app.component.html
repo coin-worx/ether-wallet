@@ -1,0 +1,52 @@
+<!-- Fixed navbar -->
+<nav *ngIf="isLoggedIn" class="navbar navbar-inverse navbar-static-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+              aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" [routerLink]="['/']">Ether Wallet</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><a [routerLink]="['/']">Home</a></li>
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><a [routerLink]="['/transfer-funds']">Transfer
+          Funds</a></li>
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }"><a
+                [routerLink]="['/wallets']">Wallets</a></li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li><a href="javascript:void(0)" style="padding-top:11px;padding-bottom:5px;">
+          <form class="form-inline">
+            <div class="form-group">
+              <label for="currency">Currency:</label>
+              <select class="form-control input-sm" name="currency" id="currency" [(ngModel)]="formData.currency"
+                      (change)="changeCurrency()">
+                <option *ngFor="let currency of currencies" [value]="currency">{{currency}}</option>
+              </select>
+            </div>
+          </form>
+        </a></li>
+        <li><a href="javascript:void(0)">Hello {{currentUser ? currentUser.name : ''}}!</a></li>
+        <li><a href="javascript:void(0)" (click)="logout()"><span
+                class="text-warning">Logout</span></a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>
+
+<!-- Begin page content -->
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p class="text-muted text-center"><a href="http://aurorasolutions.io" target="_blank">Aurora Solutions</a> &copy;
+      2016</p>
+  </div>
+</footer>

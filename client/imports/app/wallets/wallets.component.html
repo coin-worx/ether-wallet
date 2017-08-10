@@ -1,0 +1,104 @@
+<!--
+***************************************************************************** 
+* Copyright 2016 Aurora Solutions 
+* 
+*    http://www.aurorasolutions.io 
+* 
+* Aurora Solutions is an innovative services and product company at 
+* the forefront of the software industry, with processes and practices 
+* involving Domain Driven Design(DDD), Agile methodologies to build 
+* scalable, secure, reliable and high performance products.
+* 
+* Ether Wallet is a Cryptocurrency Wallet Dapp for Ethereum.
+* Developed with MeteorJS, Angular2, MongoDB and JQuery on the Ethereum
+* platform, the Dapp can be used to transfer funds, manage shared wallets
+* and start crowdfunding campaigns using the blockchain functionality of
+* Ethereum.
+* Key features: Account and permission management, Wallet creation,
+* Withdrawals and Deposits in the Wallet, funds transfer,
+* view Crypto and Fiat Currency conversion rates, etc.
+* 
+* Licensed under the Apache License, Version 2.0 (the "License"); 
+* you may not use this file except in compliance with the License. 
+* You may obtain a copy of the License at 
+* 
+*    http://www.apache.org/licenses/LICENSE-2.0 
+* 
+* Unless required by applicable law or agreed to in writing, software 
+* distributed under the License is distributed on an "AS IS" BASIS, 
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+* See the License for the specific language governing permissions and 
+* limitations under the License. 
+*****************************************************************************
+-->
+
+
+<div *ngIf="wallets">
+  <div class="panel panel-body">
+    <div class="page-header">
+      <h2>Wallets</h2>
+    </div>
+    <div class="panel-body">
+      <div *ngIf="formData.message && formData.message.length > 0">
+        <h4 class="text-success">{{formData.message}}</h4>
+      </div>
+      <div *ngIf="formData.errors && formData.errors.length > 0">
+        <ul>
+          <li *ngFor="let error of formData.errors" class="text-danger">{{error}}</li>
+        </ul>
+      </div>
+      <form *ngIf="isCreateWallet" class="form-horizontal" (submit)="createWallet($event)">
+        <div class="form-group">
+          <label for="wallet-title" class="col-sm-2 control-label">Title</label>
+          <div class="col-sm-5">
+            <input type="text" class="form-control" id="wallet-title" placeholder="Wallet Title"
+                   [(ngModel)]="formData.wallet_title" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-5">
+            <button type="submit" class="btn btn-primary" [disabled]="formData.isCreating">Submit</button>
+            <button type="reset" class="btn btn-default" [disabled]="formData.isCreating"
+                    (click)="isCreateWallet=false;resetErrors();resetData();">Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+      <button (click)="isCreateWallet=true" *ngIf="!isCreateWallet" class="btn btn-primary">Create Wallet</button>
+    </div>
+    <div class="panel">
+      <table class="table table-hover table-bordered">
+        <thead>
+        <tr class="info">
+          <th>Title</th>
+          <th>Owner</th>
+          <th>Balance</th>
+          <th>Contributors</th>
+          <th>Created at</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let wallet of wallets"
+            [ngClass]="{'success': (wallet.owner.email==currentUser.email),'warning': (wallet.owner.email!=currentUser.email)}">
+          <td>{{wallet.title}}</td>
+          <td>{{wallet.owner.name}}</td>
+          <td>{{accountsService.formatBalance(wallet.balance)}}</td>
+          <td>
+                        <span *ngFor="let contributor of wallet.contributors; let i = index">
+                            {{contributor.name}}<label *ngIf="i+1<wallet.contributors.length">,</label>
+                        </span>
+          </td>
+          <td>
+            {{wallet.created_at.toLocaleString()}}
+          </td>
+          <td>
+            <a [routerLink]="['/wallet', wallet._id]"><span class="glyphicon glyphicon-eye-open"
+                                                            aria-hidden="true"></span>&nbsp;Details</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
