@@ -4,24 +4,35 @@ EtherWallet is money transfer and wallet management application which uses Ether
 ## Quick Start
 Run this application by following these steps:
 
-0. **Clone from GitHub**
+1. **Clone from GitHub**
 
     ```sh
     $ git clone https://github.com/coin-worx/ether-wallet.git
     $ cd ether-wallet
     ```
 
-0. **Resolve dependencies**
+2. **Run Dockerized**
+    1. **Build Image**
+    ```sh
+    sudo docker run -i --rm -p 3000:3000 etherwallet
+    ```
+  
+    2. **Run Container**
+    ```sh
+    sudo docker run -i --rm -p 3000:3000 etherwallet
+    ```
 
+3. **Run non-Dockerized**
+    1. **Resolve dependencies**
     ```sh
     $ npm install
     ```
 
-0. **Run the application**
-
+    2. **Run the application**
     ```sh
     $ meteor
     ```
+
 ## Screenshots
 #### Home
 ![Home](/screenshots/home.png?raw=true)
