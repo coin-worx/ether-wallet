@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+    ether-wallet:
+        build: .
+        container_name: ether-wallet
+        ports:
+            - "3000:3000"
+        links:
+          - "ethereum-client:e-client"
+    ethereum-client:
+        image: ethereum/client-go
+        container_name: ethereum-client
+        entrypoint: /bin/sh /root/bootstrap.sh
+        volumes:
+            - ./genesis/:.
+            - ./data:./data/
+        ports:
+            - "8545:8545"
